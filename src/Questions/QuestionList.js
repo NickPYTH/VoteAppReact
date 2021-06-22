@@ -1,0 +1,45 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import NumbersItem from './QuestionItemNumbers'
+import CustomItems from './QuestionItemCustom'
+
+const styles = {
+
+}
+
+function TodoList(props) {
+    return (
+        <div>
+            {props.todos.map((todo, index) => {
+                if (todo.title === "numbers"){
+                    return (
+                        <NumbersItem
+                        todo={todo}
+                        key={todo.id}
+                        index={index}
+                        onChange={props.onToggle}
+                        />
+                    )
+                }
+                else if (todo.title === "custom"){
+                    return (
+                        <CustomItems
+                        todo={todo}
+                        key={todo.id}
+                        index={index}
+                        onChange={props.onToggle}
+                        />
+                    )
+                }
+                
+            })}
+        </div>
+    )
+    }
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onToggle: PropTypes.func.isRequired
+}
+
+export default TodoList
