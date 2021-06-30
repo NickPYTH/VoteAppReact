@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import NumbersItem from './QuestionItemNumbers'
-import CustomItems from './QuestionItemCustom'
+import NumbersItem from './NumersQuestion/QuestionItemNumbers'
+import CustomItems from './CustomQuestion/QuestionItemCustom'
+import GroupItems from './GroupQuestion/GroupQuestions'
 
 const styles = {
 
@@ -24,6 +25,16 @@ function TodoList(props) {
                 else if (todo.title === "custom"){
                     return (
                         <CustomItems
+                        todo={todo}
+                        key={todo.id}
+                        index={index}
+                        onChange={props.onToggle}
+                        />
+                    )
+                }
+                else if (todo.title === "group"){
+                    return (
+                        <GroupItems
                         todo={todo}
                         key={todo.id}
                         index={index}

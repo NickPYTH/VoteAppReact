@@ -17,7 +17,7 @@ function useInputValue(defaultValue = '') {
 function AddTodo({ onCreate }) {
   const input = useInputValue('')
 
-  function submitHandler(event) {
+  function NumbersHandler(event) {
     event.preventDefault()
     onCreate("numbers")
   }
@@ -27,13 +27,21 @@ function AddTodo({ onCreate }) {
     onCreate("custom")
   }
 
+  function GroupHandler(event) {
+    event.preventDefault()
+    onCreate("group")
+  }
+
   return (
       <div className="d-flex justify-content-lg-start">
-            <form className="m-1" onSubmit={submitHandler}>
+            <form className="m-1" onSubmit={NumbersHandler}>
                 <button className="btn btn-outline-secondary" type='submit'>Ответы 1-5</button>
             </form>
             <form className="m-1" onSubmit={CustomHandler}>
                 <button className="btn btn-outline-secondary"  type='submit'>Свои ответы</button>
+            </form>
+            <form className="m-1" onSubmit={GroupHandler}>
+                <button className="btn btn-outline-secondary"  type='submit'>Групповые ответы</button>
             </form>
       </div>
    
