@@ -88,7 +88,7 @@ function TodoItem({ todo, index }) {
                         <div className="input-group">
                             <input
                                 placeholder="Введите ответ"
-                                type="date"
+                                type="text"
                                 className="form-control mr-2"
                                 value={customAnswersEnter}
                                 onChange={e => setCustomAnswersEnter(e.target.value)}

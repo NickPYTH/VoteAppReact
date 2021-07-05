@@ -7,34 +7,74 @@ const styles = {};
 
 function TodoItem({ todo, index }) {
     const { removeTodo } = useContext(Context);
-    const classes = [];
     const [groups, setGroups] = React.useState([]);
     
-
-    if (todo.completed) {
-        classes.push("done");
-    }
-
-    function removeSubs(key) {
+    function removeGroup(key) {  // todo fix 
         if (groups.length != 1){
-            setGroups(
-                groups.filter((groups) => groups.key !== key)
-            );
+            var tmp = new Array()
+            groups.map((group)=>{
+                if (group.key != key){
+                    console.log(group.key)
+                    tmp.push({
+                        ques_index: group.ques_index,
+                        key: group.key,
+                        childs: group.childs,
+                    })
+                }
+            })
+            setGroups([]);
+            setGroups(tmp);
         }
         
     }
 
     function addChild(group_key, value) {
         var tmp_groups = groups
+        if (typeof(value) == "object"){
+           if (value.get(group_key) !== ""){
+            tmp_groups.map(
+                (group)=>{
+                    if (group.key === group_key){
+                        group.childs.push({
+                            key: Math.random(),
+                            value: value,
+                            group_key: group_key,
+                        })
+                    }
+                }
+            )
+            setGroups(tmp_groups)  
+            } 
+        }     
+    }
+
+    function changeTitle(value, group_key) {
+        var tmp_groups = groups
         tmp_groups.map(
             (group)=>{
                 if (group.key === group_key){
-                    group.childs.push({
-                        key: Math.random(),
-                        value: value,
-                        group_key: group_key,
-                    })
-                }
+                    group.title = value
+                }   
+            }
+        )
+        setGroups(tmp_groups)
+    }
+
+    function removeChild(group_key, child_key) {
+        var tmp_groups = groups
+        tmp_groups.map(
+            (group)=>{
+                if (group.key === group_key){
+                    var tmp_childs = []
+                    group.childs.map(
+                        (child)=>{
+                            if (child.key != child_key){
+                                tmp_childs.push(child)
+                            }
+                        }
+                    )
+                    group.childs = tmp_childs
+                }   
             }
         )
         setGroups(tmp_groups)
@@ -43,7 +83,7 @@ function TodoItem({ todo, index }) {
 
 
     return (
-        <Context.Provider value={{ removeSubs, addChild }}>
+        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle }}>
             <div>
                 <div id={index + 1} className="card mb-3">
                     <div className="card-body">
@@ -84,7 +124,7 @@ function TodoItem({ todo, index }) {
                             </div>
                             <input type="text" className="form-control"></input>
                         </div>
-                        <ChildGroup groups={groups} />
+                        <ChildGroup groups={groups} index={index + 1}/>
                         <div className="d-flex justify-content-lg-start">
                             <button
                                 className="btn btn-outline-secondary"
@@ -94,6 +134,7 @@ function TodoItem({ todo, index }) {
                                             ques_index: index + 1,
                                             key: Math.random(),
                                             childs: [],
+                                            title: "",
                                         })
                                     )
                             

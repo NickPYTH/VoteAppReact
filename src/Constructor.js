@@ -51,8 +51,8 @@ export default function App() {
         <div className="container mt-4 mt-lg-5">
             <div className="row">
                 <div className="col-12">
-                    <div class="card mb-3">
-                        <div class="card-body">
+                    <div className="card mb-3">
+                        <div className="card-body">
                             <div className="input-group mb-3">
                                 <div className="input-group-prepend">
                                     <span style={{'width': 14+'rem',}} className="input-group-text">Имя формы</span>
@@ -68,8 +68,8 @@ export default function App() {
                         </div>
                     </div>
 
-                    <div class="card mb-3">
-                        <div class="card-body">
+                    <div className="card mb-3">
+                        <div className="card-body">
                             <div className="input-group">
                                 <div className="input-group-prepend">
                                     <span style={{'width': 14+'rem',}} className="input-group-text">Дата окончания</span>

@@ -45,11 +45,11 @@ function TodoItem({ todo, index, onChange }) {
                 Варианты ответа
               </span>
             </div>
-            <button type="button" class="btn btn-outline-secondary ml-2">1</button>
-            <button type="button" class="btn btn-outline-secondary ml-2">2</button>
-            <button type="button" class="btn btn-outline-secondary ml-2">3</button>
-            <button type="button" class="btn btn-outline-secondary ml-2">4</button>
-            <button type="button" class="btn btn-outline-secondary ml-2">5</button>
+            <button type="button" className="btn btn-outline-secondary ml-2">1</button>
+            <button type="button" className="btn btn-outline-secondary ml-2">2</button>
+            <button type="button" className="btn btn-outline-secondary ml-2">3</button>
+            <button type="button" className="btn btn-outline-secondary ml-2">4</button>
+            <button type="button" className="btn btn-outline-secondary ml-2">5</button>
           </div>
         </div>
       </div>

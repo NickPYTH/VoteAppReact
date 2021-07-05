@@ -1,107 +1,100 @@
 import React, { useContext, useState } from "react";
 import PropTypes, { func } from "prop-types";
 import Context from "../../context";
-import ChildGroupItem from "./ChildGroupItem";
+import QuestionList from "./ChildGroupItem.js";
 
 const styles = {};
 
 function ChildGroup(props) {
-    const index = props.index;
-    const { removeSubs } = useContext(Context);
-    const [customAnswers, setCustomAnswers] = React.useState([]);
-    const [customAnswersEnter, setCustomAnswersEnter] = React.useState(new Map());
-    const { addChild } = useContext(Context);
+    const { removeGroup } = useContext(Context);
+    const [title, setTitle] = React.useState(new Map());
+    const { changeTitle } = useContext(Context);
 
-    function prepareSetCustomAnswersEnter(e, currentKey) {
-        if (typeof(customAnswersEnter) == "string"){
+    function prepareSetTitle(e, currentKey) {
+        if (typeof title == "string") {
             var tmp = new Map();
-            tmp.set(currentKey, e.value)
-            setCustomAnswersEnter(tmp);
+            tmp.set(currentKey, e.value);
+            setTitle(tmp);
+        } else {
+            title.set(currentKey, e.value);
+            setTitle(title);
         }
-        else{
-            customAnswersEnter.set(currentKey, e.value);
-            setCustomAnswersEnter(customAnswersEnter);
-        } 
     }
 
-    function removeChild(key) {
+    const [todos, setTodos] = React.useState([]);
+
+    function removeTodo(group_id, child_id) {
         var tmp = [];
-        customAnswers.map((item) => {
-            if (item.key != key) {
-                tmp = tmp.concat({
-                    ques_index: item.ques_index,
-                    key: item.key,
-                    value: item.value,
-                });
+        todos.map((value) => {
+            if (child_id != value.child_id){
+                tmp.push(value)
             }
         });
-        setCustomAnswers(tmp);
+        setTodos(tmp);
+    }
+    function addTodo(group_id) {
+        setTodos(
+            todos.concat([
+                {
+                    ques_index: props.index,
+                    group_id: group_id,
+                    child_id: Math.random(),
+                    value: "",
+                },
+            ])
+        );
+    }
+    function changeTodo(e, group_id, child_id) {
+        var tmp = todos;
+        tmp.map((value) => {
+            if (child_id == value.child_id){
+                value.value = e.target.value
+            }
+        });
+        setTodos(tmp);
     }
 
-    let count = 0;
+
     return (
-        <Context.Provider value={{ removeChild }}>
+        <Context.Provider value={{ addTodo, removeTodo, changeTodo }}>
             <div>
                 {props.groups.map((currentValue) => {
-                    count += 1;
                     return (
                         <div>
                             <div className="row">
-                                <div className="col-6">
+                                <div className="col-12 justify-content-center">
                                     <div className="input-group mb-3">
                                         <input
+                                            key={currentValue.key}
                                             placeholder="Имя группы"
                                             type="text"
                                             className="form-control"
+                                            onChange={(e) => {
+                                                changeTitle(
+                                                    e.target,
+                                                    currentValue.key
+                                                );
+                                                prepareSetTitle(
+                                                    e,
+                                                    currentValue.key
+                                                );
+                                            }}
+                                            value={title.get(currentValue.key)}
                                         ></input>
                                     </div>
                                 </div>
 
-                                <div className="col-6 offset">
-                                    {currentValue.childs.map((child) => {
-                                        return (
-                                            <div key={currentValue.key}>
-                                                {child.value}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                                <QuestionList
+                                    group_id={currentValue.key}
+                                    todos={todos}
+                                    onCreate={addTodo}
+                                    onRemove={removeTodo}
+                                />
                             </div>
 
-                            <div className="d-flex justify-content-center">
-                                <div className="input-group">
-                                    <input
-                                        name={currentValue.key}
-                                        placeholder="Введите дочерний элемент"
-                                        type="date"
-                                        className="form-control mr-2"
-                                        
-                                        onChange={(e) =>
-                                            prepareSetCustomAnswersEnter(
-                                                e.target,
-                                                currentValue.key
-                                            )
-                                        }
-                                    ></input>
-                                
-                                    <button
-                                        className="btn btn-outline-secondary"
-                                        onClick={() => {
-                                            addChild(
-                                                currentValue.key,
-                                                customAnswersEnter
-                                            );
-                                            setCustomAnswersEnter("");
-                                        }}
-                                        type="submit"
-                                    >
-                                        Добавить дочерний элемент
-                                    </button>
-                                </div>
-                            </div>
                             <button
                                 className="btn btn-outline-danger mt-3 mb-3"
-                                onClick={removeSubs.bind(
+                                onClick={removeGroup.bind(
                                     null,
                                     currentValue.key
                                 )}
