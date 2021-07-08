@@ -6,7 +6,7 @@ import QuestionList from "./ChildGroupItem.js";
 const styles = {};
 
 function ChildGroup(props) {
-    const { removeGroup } = useContext(Context);
+    const { removeGroup, changeGroupChild, removeGroupChild } = useContext(Context);
     const [title, setTitle] = React.useState(new Map());
     const { changeTitle } = useContext(Context);
 
@@ -25,12 +25,23 @@ function ChildGroup(props) {
 
     function removeTodo(group_id, child_id) {
         var tmp = [];
+        var counter = 0;
         todos.map((value) => {
-            if (child_id != value.child_id){
-                tmp.push(value)
+            if (value.group_id == group_id){
+                counter += 1
             }
-        });
-        setTodos(tmp);
+        })
+        if (counter > 1){
+            todos.map((value) => {
+                if (child_id != value.child_id){
+                    tmp.push(value)
+                }
+            });
+            setTodos(tmp);
+            console.log(todos)
+            removeGroupChild(tmp, child_id)
+        }
+            
     }
     function addTodo(group_id) {
         setTodos(
@@ -42,7 +53,7 @@ function ChildGroup(props) {
                     value: "",
                 },
             ])
-        );
+        )
     }
     function changeTodo(e, group_id, child_id) {
         var tmp = todos;
@@ -52,13 +63,16 @@ function ChildGroup(props) {
             }
         });
         setTodos(tmp);
+        changeGroupChild(tmp)
+        
     }
 
 
     return (
-        <Context.Provider value={{ addTodo, removeTodo, changeTodo }}>
+        <Context.Provider value={{ removeTodo, changeTodo }}>
             <div>
                 {props.groups.map((currentValue) => {
+                    var title_tmp = title.get(currentValue.key)
                     return (
                         <div>
                             <div className="row">
@@ -75,11 +89,11 @@ function ChildGroup(props) {
                                                     currentValue.key
                                                 );
                                                 prepareSetTitle(
-                                                    e,
+                                                    e.target,
                                                     currentValue.key
                                                 );
                                             }}
-                                            value={title.get(currentValue.key)}
+                                            defaultValue={title_tmp}
                                         ></input>
                                     </div>
                                 </div>
@@ -96,7 +110,8 @@ function ChildGroup(props) {
                                 className="btn btn-outline-danger mt-3 mb-3"
                                 onClick={removeGroup.bind(
                                     null,
-                                    currentValue.key
+                                    currentValue.key,
+                                    todos
                                 )}
                             >
                                 Удалить группу

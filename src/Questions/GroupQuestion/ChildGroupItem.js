@@ -5,7 +5,6 @@ import Context from "../../context";
 function Questions(props) {
     const { removeTodo } = useContext(Context);
     const { changeTodo } = useContext(Context);
-    console.log(props.group_id, "--")
     function addTodo(event) {
         event.preventDefault();
         props.onCreate(props.group_id);
@@ -18,10 +17,8 @@ function Questions(props) {
         <div className="col-12">
             <div className="col-12">
             {props.todos.map((val) => {
-                console.log(props.group_id ,val.group_id)
                 if (props.group_id == val.group_id){
                     var gen_key = `${Math.floor(Math.random() * 1000)}-min`
-                    
                     return (
                         <div>
                             <div className="input-group mb-2">

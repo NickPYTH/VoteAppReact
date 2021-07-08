@@ -28,7 +28,10 @@ function SubCustom(props) {
                         >{currentValue.value}</div>
                         <button
                             className="btn btn-outline-danger ml-2"
-                            onClick={removeSubs.bind(null, currentValue.key)}
+                            onClick={
+                                removeSubs.bind(null, currentValue.key, props.index, currentValue.value)
+                                
+                            }
                         >
                             x
                         </button>

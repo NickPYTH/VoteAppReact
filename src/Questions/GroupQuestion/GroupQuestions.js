@@ -5,25 +5,23 @@ import ChildGroup from "./ChildGroup";
 
 const styles = {};
 
-function TodoItem({ todo, index }) {
+function TodoItem({ todo, index, onChange }) {
     const { removeTodo } = useContext(Context);
+    const { changeGroupChild, removeGroupChild } = useContext(Context);
     const [groups, setGroups] = React.useState([]);
     
-    function removeGroup(key) {  // todo fix 
+    function removeGroup(key, childArray) {  // todo fix 
         if (groups.length != 1){
             var tmp = new Array()
             groups.map((group)=>{
                 if (group.key != key){
-                    console.log(group.key)
-                    tmp.push({
-                        ques_index: group.ques_index,
-                        key: group.key,
-                        childs: group.childs,
-                    })
+                    tmp.push(group)
                 }
             })
             setGroups([]);
             setGroups(tmp);
+            onChange("groups", index, tmp, null)
+            changeGroupChild(childArray)
         }
         
     }
@@ -43,7 +41,8 @@ function TodoItem({ todo, index }) {
                     }
                 }
             )
-            setGroups(tmp_groups)  
+            setGroups(tmp_groups) 
+            onChange("groups", index, tmp_groups, null)
             } 
         }     
     }
@@ -53,11 +52,12 @@ function TodoItem({ todo, index }) {
         tmp_groups.map(
             (group)=>{
                 if (group.key === group_key){
-                    group.title = value
+                    group.title = value.value
                 }   
             }
         )
         setGroups(tmp_groups)
+        onChange("groups", index, tmp_groups, null)
     }
 
     function removeChild(group_key, child_key) {
@@ -78,12 +78,13 @@ function TodoItem({ todo, index }) {
             }
         )
         setGroups(tmp_groups)
+        onChange("groups", index, tmp_groups, null)
     }
 
 
 
     return (
-        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle }}>
+        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle, onChange, changeGroupChild, removeGroupChild }}>
             <div>
                 <div id={index + 1} className="card mb-3">
                     <div className="card-body">
@@ -133,7 +134,7 @@ function TodoItem({ todo, index }) {
                                         groups.concat({
                                             ques_index: index + 1,
                                             key: Math.random(),
-                                            childs: [],
+                                            childs: new Map(),
                                             title: "",
                                         })
                                     )

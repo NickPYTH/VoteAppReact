@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import Context from "../../context";
 import SubCustom from "./SubCustom";
 
 const styles = {};
 
-function TodoItem({ todo, index }) {
+function TodoItem({ todo, index, onChange}) {
     const { removeTodo } = useContext(Context);
     const [customAnswers, setCustomAnswers] = React.useState([]);
     const [customAnswersEnter, setCustomAnswersEnter] = React.useState("");
 
-    function removeSubs(key) {
+    function removeSubs(key, id, value) {
         var tmp = [];
         customAnswers.map((item) => {
             if (item.key != key) {
@@ -22,6 +22,7 @@ function TodoItem({ todo, index }) {
             }
         });
         setCustomAnswers(tmp);
+        onChange("custom", id, value, true)
     }
 
     function addValue(key, val) {
@@ -30,6 +31,11 @@ function TodoItem({ todo, index }) {
                 item.value = val;
             }
         });
+        console.log("customAnswers")
+    }
+
+    function addAnsToData(id, value){
+        onChange("custom", id, value)
     }
 
     function getCurrentValue(key) {
@@ -83,7 +89,7 @@ function TodoItem({ todo, index }) {
                             </div>
                             <input type="text" className="form-control"></input>
                         </div>
-                        <SubCustom answers={customAnswers} />
+                        <SubCustom index={index} answers={customAnswers} />
 
                         <div className="input-group">
                             <input
@@ -103,7 +109,7 @@ function TodoItem({ todo, index }) {
                                         value: customAnswersEnter,
                                     })
                                 )
-                                
+                                addAnsToData(index, customAnswersEnter)
                                 setCustomAnswersEnter("");
                                   }
                                 }

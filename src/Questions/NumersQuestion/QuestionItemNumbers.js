@@ -8,11 +8,7 @@ const styles = {
 
 function TodoItem({ todo, index, onChange }) {
   const { removeTodo } = useContext(Context);
-  const classes = [];
-
-  if (todo.completed) {
-    classes.push("done");
-  }
+  onChange("numbers", index)
 
   return (
     <div>
