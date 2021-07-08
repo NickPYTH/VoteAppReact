@@ -25,7 +25,7 @@ function TodoItem({ todo, index, onChange }) {
                 Заголовок вопроса
               </span>
             </div>
-            <input type="text" className="form-control"></input>
+            <input required={true} type="text" className="form-control"></input>
           </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
@@ -33,7 +33,7 @@ function TodoItem({ todo, index, onChange }) {
                 Описание вопроса
               </span>
             </div>
-            <input type="text" className="form-control"></input>
+            <input required={true} type="text" className="form-control"></input>
           </div>          
           <div className="input-group">
           <div className="input-group-prepend">

@@ -13,7 +13,7 @@ function SubGroup(props) {
                 count += 1;
                 return (
                     <div className="input-group mb-3">
-                        <input placeholder="Имя группы" type="text" className="form-control"></input>
+                        <input required={true} placeholder="Имя группы" type="text" className="form-control"></input>
                         <button
                             className="btn btn-outline-danger ml-2"
                             onClick={removeSubs.bind(null, currentValue.key)}

@@ -43,8 +43,7 @@ function Questions(props) {
             <form className="col-6" onSubmit={addTodo}>
                 <button
                     className="btn btn-outline-secondary"
-                    name="kek"
-                    type="submit"
+                    
                 >
                     Добавить дочерний элемент
                 </button>
