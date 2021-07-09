@@ -45,6 +45,7 @@ export default function App() {
       tmp.map((val) => {
         if (val.questionNumber == id) {
           val.data = [1, 2, 3, 4, 5];
+          val.data.isComment = value
         }
       });
       setTodos(tmp);
@@ -53,7 +54,12 @@ export default function App() {
         var tmp = todos;
         tmp.map((val) => {
           if (val.questionNumber == id) {
-            val.data.push(value);
+            if (value === true || value === false){
+              val.isComment = value
+            }
+            else{
+              val.data.push(value);
+            }
           }
         });
         setTodos(tmp);
@@ -70,7 +76,14 @@ export default function App() {
       var tmp = todos;
       tmp.map((val) => {
         if (val.questionNumber == id) {
-          val.data = value;
+          if (value === true || value === false){
+            console.log(value)
+            val.isComment = value
+          }
+          else{
+            val.data = value
+          }
+          
         }
       });
       setTodos(tmp);
@@ -90,6 +103,7 @@ export default function App() {
           title,
           id: Date.now(),
           data: [],
+          isComment: false,
         },
       ])
     );
@@ -134,7 +148,7 @@ export default function App() {
     form.set("form_description", formInfo.description);
     form.set("form_date", formInfo.date);
     form.set("questions", todos);
-    //console.log(form)
+    console.log(form)
 
     setFormInfo({
       name: formInfo.name,

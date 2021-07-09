@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import PropTypes, { func } from "prop-types";
 import Context from "../../context";
 import SubCustom from "./SubCustom";
+import Switch from "@material-ui/core/Switch";
 
 const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
+  const [isComment, setIsComment] = useState(false)
   const { removeTodo } = useContext(Context);
   const [customAnswers, setCustomAnswers] = React.useState([]);
   const [customAnswersEnter, setCustomAnswersEnter] = React.useState("");
@@ -31,7 +33,6 @@ function TodoItem({ todo, index, onChange }) {
         item.value = val;
       }
     });
-    console.log("customAnswers");
   }
 
   function addAnsToData(id, value) {
@@ -131,7 +132,21 @@ function TodoItem({ todo, index, onChange }) {
                   >
                     Добавить ответ
                   </button>
+                  
                 </div>
+                <div className="input-group-prepend mt-3 w-100">
+              <div style={{ width: 14 + "rem" }} className="input-group-text rounded-left">
+                Коментарий к ответу
+              </div>
+              <Switch
+                      name="checkedB"
+                      color="primary"
+                      onChange={() => {
+                        setIsComment(isComment ? false : true)
+                        addAnsToData(index, isComment ? false : true)
+                      }}
+                    />
+            </div>
               </div>
             </div>
           </div>

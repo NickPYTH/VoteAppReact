@@ -40,7 +40,7 @@ function Questions(props) {
                     );}
             })}
             </div>
-            <form className="col-6" onSubmit={addTodo}>
+            <form className="col-lg-6 col-12" onSubmit={addTodo}>
                 <button
                     className="btn btn-outline-secondary"
                     

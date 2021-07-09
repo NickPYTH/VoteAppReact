@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Context from "../../context";
+import Switch from "@material-ui/core/Switch";
 
 const styles = {
 
@@ -8,7 +9,13 @@ const styles = {
 
 function TodoItem({ todo, index, onChange }) {
   const { removeTodo } = useContext(Context);
-  onChange("numbers", index)
+  const [isComment, setIsComment] = useState(false)
+  
+
+  function prepare(isComment) {
+    onChange("numbers", index, isComment)
+    console.log(isComment)
+  }
 
   return (
     <div>
@@ -62,12 +69,29 @@ function TodoItem({ todo, index, onChange }) {
               <button type="button" className="btn btn-outline-secondary ml-2">3</button>
               <button type="button" className="btn btn-outline-secondary ml-2">4</button>
               <button type="button" className="btn btn-outline-secondary ml-2">5</button>
+              
             </div>
-           
+            <div className="input-group-prepend mt-3 w-100">
+              <div style={{ width: 14 + "rem" }} className="input-group-text rounded-left">
+                Коментарий к ответу
+              </div>
+              <Switch
+                      name="checkedB"
+                      color="primary"
+                      onChange={() => {
+                        setIsComment(isComment ? false : true)
+                        prepare(isComment ? false : true)
+                      }}
+                    />
+            </div>
+            
           </div>
+                    
+          </div>
+
         </div>
       </div>
-    </div>
+  
   );
 }
 

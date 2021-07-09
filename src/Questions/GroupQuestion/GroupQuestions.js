@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Context from "../../context";
 import ChildGroup from "./ChildGroup";
+import Switch from "@material-ui/core/Switch";
 
 const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
+    const [isComment, setIsComment] = useState(false)
     const { removeTodo } = useContext(Context);
     const { changeGroupChild, removeGroupChild } = useContext(Context);
     const [groups, setGroups] = React.useState([]);
@@ -92,8 +94,8 @@ function TodoItem({ todo, index, onChange }) {
                             <span className="badge badge-primary">
                                 Групповые ответы
                             </span>
-                            <span className="badge badge-primary">
-                                Номер вопроса: {index + 1}
+                            <span className="badge badge-primary d-none d-lg-flex">
+                                Номер воdпроса: {index + 1}
                             </span>
                             <span
                                 style={{ cursor: "pointer" }}
@@ -104,7 +106,7 @@ function TodoItem({ todo, index, onChange }) {
                             </span>
                         </div>
                         <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <div className="input-group-prepend d-none d-lg-flex">
                                 <span
                                     style={{ width: 14 + "rem" }}
                                     className="input-group-text"
@@ -112,10 +114,17 @@ function TodoItem({ todo, index, onChange }) {
                                     Заголовок вопроса
                                 </span>
                             </div>
+                            <div className="input-group-prepend d-lg-none d-flex w-100 mb-1">
+                                <div
+                                    className="input-group-text w-100"
+                                >
+                                    Заголовок вопроса
+                                </div>
+                            </div>
                             <input required={true} type="text" className="form-control"></input>
                         </div>
                         <div className="input-group mb-3">
-                            <div className="input-group-prepend">
+                            <div className="input-group-prepend d-none d-lg-flex">
                                 <span
                                     style={{ width: 14 + "rem" }}
                                     className="input-group-text"
@@ -123,10 +132,17 @@ function TodoItem({ todo, index, onChange }) {
                                     Описание вопроса
                                 </span>
                             </div>
+                            <div className="input-group-prepend d-lg-none d-flex w-100 mb-1">
+                                <div
+                                    className="input-group-text w-100"
+                                >
+                                    Описание вопроса
+                                </div>
+                            </div>
                             <input required={true} type="text" className="form-control"></input>
                         </div>
                         <ChildGroup groups={groups} index={index + 1}/>
-                        <div className="d-flex justify-content-lg-start">
+                        <div className="d-flex justify-content-lg-start justify-content-center">
                             <button
                                 className="btn btn-outline-secondary"
                                 onClick={() =>{
@@ -145,7 +161,21 @@ function TodoItem({ todo, index, onChange }) {
                             >
                                 Добавить группу
                             </button>
+                            
                         </div>
+                        <div className="input-group-prepend mt-3 w-100">
+                            <div style={{ width: 14 + "rem" }} className="input-group-text rounded-left">
+                                Коментарий к ответу
+                            </div>
+                            <Switch
+                                    name="checkedB"
+                                    color="primary"
+                                    onChange={() => {
+                                        setIsComment(isComment ? false : true)
+                                        onChange("groups", index, isComment ? false : true)
+                                    }}
+                                    />
+            </div>
                     </div>
                 </div>
             </div>
