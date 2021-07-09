@@ -17,13 +17,19 @@ function SubCustom(props) {
                         <div className="input-group-prepend">
                             <span
                                 style={{ width: 14 + "rem" }}
-                                className="input-group-text"
+                                className="input-group-text d-lg-flex d-none"
+                            >
+                                {count} ответ
+                            </span>
+                            <span
+                                className="input-group-text d-lg-none d-flex"
                             >
                                 {count} ответ
                             </span>
                         </div>
                         <div
                             name={currentValue.key}
+                            style={{ overflowX : "scroll" }}
                             className="form-control"
                         >{currentValue.value}</div>
                         <button

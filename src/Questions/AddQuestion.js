@@ -33,15 +33,15 @@ function AddTodo({ onCreate }) {
   }
 
   return (
-      <div className="d-flex justify-content-lg-start">
-            <form className="m-1" onSubmit={NumbersHandler}>
-                <button className="btn btn-outline-secondary" type='submit'>Ответы 1-5</button>
+      <div className="d-flex justify-content-lg-start row">
+            <form className="col-12 col-lg-4 mb-1" onSubmit={NumbersHandler}>
+                <button className="btn btn-outline-secondary w-100" type='submit'>Ответы 1-5</button>
             </form>
-            <form className="m-1" onSubmit={CustomHandler}>
-                <button className="btn btn-outline-secondary"  type='submit'>Свои ответы</button>
+            <form className=" col-12 col-lg-4 mb-1" onSubmit={CustomHandler}>
+                <button className="btn btn-outline-secondary w-100"  type='submit'>Свои ответы</button>
             </form>
-            <form className="m-1" onSubmit={GroupHandler}>
-                <button className="btn btn-outline-secondary"  type='submit'>Групповые ответы</button>
+            <form className="col-12  col-lg-4 mb-1" onSubmit={GroupHandler}>
+                <button className="btn btn-outline-secondary w-100"  type='submit'>Групповые ответы</button>
             </form>
       </div>
    
