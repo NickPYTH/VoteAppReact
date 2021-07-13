@@ -8,11 +8,15 @@ const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
     const [isComment, setIsComment] = useState(false)
-    const { removeTodo } = useContext(Context);
-    const { changeGroupChild, removeGroupChild } = useContext(Context);
-    const [groups, setGroups] = React.useState([]);
+    const { removeTodo } = useContext(Context)
+    const { changeGroupChild, removeGroupChild } = useContext(Context)
+    const [groups, setGroups] = React.useState([])
+    const { changeQuestionTitle } = useContext(Context)
+    const { changeQuestionDescription } = useContext(Context)
+    const [questionTitle, setQuestionTitle] = useState("")
+    const [questionDescription, setQuestionDescription] = useState("")
     
-    function removeGroup(key, childArray) {  // todo fix 
+    function removeGroup(key, childArray) { 
         if (groups.length != 1){
             var tmp = new Array()
             groups.map((group)=>{
@@ -121,7 +125,13 @@ function TodoItem({ todo, index, onChange }) {
                                     Заголовок вопроса
                                 </div>
                             </div>
-                            <input required={true} type="text" className="form-control"></input>
+                            <input required={true} type="text" className="form-control"
+                                onChange={(e)=>{
+                                    setQuestionTitle(e.target.value)
+                                    changeQuestionTitle(index, e.target.value)
+                                }}
+                                defaultValue={questionTitle}
+                            ></input>
                         </div>
                         <div className="input-group mb-3">
                             <div className="input-group-prepend d-none d-lg-flex">
@@ -139,7 +149,13 @@ function TodoItem({ todo, index, onChange }) {
                                     Описание вопроса
                                 </div>
                             </div>
-                            <input required={true} type="text" className="form-control"></input>
+                            <input required={true} type="text" className="form-control"
+                            onChange={(e)=>{
+                                setQuestionDescription(e.target.value)
+                                changeQuestionDescription(index, e.target.value)
+                            }}
+                            defaultValue={questionDescription}
+                            ></input>
                         </div>
                         <ChildGroup groups={groups} index={index + 1}/>
                         <div className="d-flex justify-content-lg-start justify-content-center">

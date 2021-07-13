@@ -27,13 +27,10 @@ export default function App() {
     date: "",
     isClicked: false,
   });
-  const [errors, setErrors] = React.useState([]);
   const [isInfinity, setIsInfinity] = React.useState(false);
   const [todos, setTodos] = React.useState([]);
   const [countQuestion, setCountQuestion] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
-
-  const [selectedDate, handleDateChange] = useState(new Date());
 
   function toggleTodo(
     type,
@@ -91,6 +88,26 @@ export default function App() {
     }
   }
 
+  function changeQuestionTitle(id, title_value){
+    var tmp = todos
+    tmp.map((question)=>{
+      if (question.questionNumber == (id+1)){
+        question.question_title = title_value
+      }
+    })
+    setTodos(tmp)
+  }
+
+  function changeQuestionDescription(id, description_value){
+    var tmp = todos
+    tmp.map((question)=>{
+      if (question.questionNumber == (id+1)){
+        question.question_description = description_value
+      }
+    })
+    setTodos(tmp)
+  }
+
   function removeTodo(id) {
     setCountQuestion(countQuestion-1)
     var count = 1 
@@ -111,6 +128,8 @@ export default function App() {
         {
           questionNumber: tmp + 1,
           title: title,
+          question_title: "",
+          question_description: "",
           id: Date.now(),
           data: [],
           isComment: false,
@@ -156,29 +175,28 @@ export default function App() {
     var form = new Map();
     form.set("form_name", formInfo.name);
     form.set("form_description", formInfo.description);
-    form.set("form_date", formInfo.date);
     form.set("questions", todos);
+    if (formInfo.isClicked){
+      form.set("form_date", "inf");
+    }
+    else{
+      form.set("form_date", formInfo.date);
+    }
     console.log(Object.fromEntries(form))
 
-    setFormInfo({
-      name: formInfo.name,
-      description: formInfo.description,
-      date: formInfo.date,
-      isClicked: true,
-    });
 
-  var axios = require('axios');
-  var data = JSON.stringify(Object.fromEntries(form));
-  
-  var config = {
-    method: 'post',
-    url: 'http://127.0.0.1:8000/api/create_form',
-    headers: { 
-      'Authorization': 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==', 
-      'Content-Type': 'application/json'
-    },
-    data : data
-  };
+    var axios = require('axios');
+    var data = JSON.stringify(Object.fromEntries(form));
+    
+    var config = {
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api/create_form',
+      headers: { 
+        'Authorization': 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==', 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    }
   
   axios(config)
   .then(function (response) {
@@ -186,15 +204,13 @@ export default function App() {
   })
   .catch(function (error) {
     console.log(error);
-  });
-
-  console.log(countQuestion)
+  })
 
 }
 
   return (
     <Context.Provider
-      value={{ removeTodo, changeGroupChild, removeGroupChild }}
+      value={{ removeTodo, changeGroupChild, removeGroupChild, changeQuestionTitle, changeQuestionDescription }}
     >
       <div className="container mt-4 mt-lg-5">
         <div className="row">
@@ -223,8 +239,8 @@ export default function App() {
                         name: e.target.value,
                         description: formInfo.description,
                         date: formInfo.date,
-                        isClicked: formInfo.isClicked ? true : false,
-                      });
+                        isClicked: formInfo.isClicked,
+                      })
                     }}
                     required={true}
                     defaultValue={formInfo.name}
@@ -252,7 +268,7 @@ export default function App() {
                         name: formInfo.name,
                         description: e.target.value,
                         date: formInfo.date,
-                        isClicked: formInfo.isClicked ? true : false,
+                        isClicked: formInfo.isClicked,
                       });
                     }}
                     defaultValue={formInfo.description}
@@ -292,8 +308,13 @@ export default function App() {
                       <Switch
                         name="checkedB"
                         color="primary"
-                        onChange={() => {
-                          setIsInfinity(!isInfinity);
+                        onChange={(e) => {
+                          setFormInfo({
+                            name: formInfo.name,
+                            description: formInfo.description,
+                            date: e.target.value,
+                            isClicked: formInfo.isClicked ? false : true,
+                          });
                         }}
                       />
                     </span>
@@ -302,7 +323,7 @@ export default function App() {
                     <span
                       style={{ width: 14 + "rem" }}
                       className="input-group-text d-none d-lg-flex"
-                      hidden={isInfinity}
+                      hidden={formInfo.isClicked}
                     >
                       Дата окончания
                     </span>
@@ -315,11 +336,11 @@ export default function App() {
                         name: formInfo.name,
                         description: formInfo.description,
                         date: e.target.value,
-                        isClicked: formInfo.isClicked ? true : false,
+                        isClicked: formInfo.isClicked,
                       });
                     }}
                     defaultValue={formInfo.date}
-                    hidden={isInfinity}
+                    hidden={formInfo.isClicked}
                   />
                 </div>
               </div>

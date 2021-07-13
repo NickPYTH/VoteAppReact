@@ -8,9 +8,12 @@ const styles = {
 };
 
 function TodoItem({ todo, index, onChange }) {
-  const { removeTodo } = useContext(Context);
+  const { removeTodo } = useContext(Context)
+  const { changeQuestionTitle } = useContext(Context)
+  const { changeQuestionDescription } = useContext(Context)
   const [isComment, setIsComment] = useState(false)
-  
+  const [questionTitle, setQuestionTitle] = useState("")
+  const [questionDescription, setQuestionDescription] = useState("")
 
   function prepare(isComment) {
     onChange("numbers", index, isComment)
@@ -37,7 +40,14 @@ function TodoItem({ todo, index, onChange }) {
                 Заголовок вопроса
               </div>
             </div>
-            <input required={true} type="text" className="form-control"></input>
+            <input 
+              required={true} 
+              onChange={(e)=>{
+                setQuestionTitle(e.target.value)
+                changeQuestionTitle(index, e.target.value)
+            }}
+            defaultValue={questionTitle} 
+            type="text" className="form-control"></input>
           </div>
           <div className="input-group mb-3 ">
             <div className="input-group-prepend d-none d-lg-flex">
@@ -50,7 +60,13 @@ function TodoItem({ todo, index, onChange }) {
               Описание вопроса
               </div>
             </div>
-            <input required={true} type="text" className="form-control"></input>
+            <input required={true} type="text" className="form-control"
+              onChange={(e)=>{
+                setQuestionDescription(e.target.value)
+                changeQuestionDescription(index, e.target.value)
+            }}
+            defaultValue={questionDescription}
+            ></input>
           </div>          
           <div className="input-group justify-content-lg-start justify-content-center">
           <div className="input-group-prepend d-none d-lg-flex">

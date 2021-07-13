@@ -8,9 +8,13 @@ const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
   const [isComment, setIsComment] = useState(false)
-  const { removeTodo } = useContext(Context);
-  const [customAnswers, setCustomAnswers] = React.useState([]);
-  const [customAnswersEnter, setCustomAnswersEnter] = React.useState("");
+  const { removeTodo } = useContext(Context)
+  const [customAnswers, setCustomAnswers] = React.useState([])
+  const [customAnswersEnter, setCustomAnswersEnter] = React.useState("")
+  const { changeQuestionTitle } = useContext(Context)
+  const { changeQuestionDescription } = useContext(Context)
+  const [questionTitle, setQuestionTitle] = useState("")
+  const [questionDescription, setQuestionDescription] = useState("")
 
   function removeSubs(key, id, value) {
     var tmp = [];
@@ -83,6 +87,11 @@ function TodoItem({ todo, index, onChange }) {
                 required={true}
                 type="text"
                 className="form-control"
+                onChange={(e)=>{
+                  setQuestionTitle(e.target.value)
+                  changeQuestionTitle(index, e.target.value)
+              }}
+              defaultValue={questionTitle}
               ></input>
             </div>
             <div className="input-group mb-3">
@@ -101,6 +110,11 @@ function TodoItem({ todo, index, onChange }) {
                 required={true}
                 type="text"
                 className="form-control"
+                onChange={(e)=>{
+                  setQuestionDescription(e.target.value)
+                  changeQuestionDescription(index, e.target.value)
+              }}
+              defaultValue={questionDescription}
               ></input>
             </div>
             <SubCustom index={index} answers={customAnswers} />
