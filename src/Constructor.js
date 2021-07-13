@@ -9,6 +9,7 @@ import {
   NoteIcon,
 } from "@primer/octicons-react";
 import Switch from "@material-ui/core/Switch";
+import axios from "axios"
 
 const AddTodo = React.lazy(
   () =>
@@ -91,16 +92,25 @@ export default function App() {
   }
 
   function removeTodo(id) {
+    setCountQuestion(countQuestion-1)
+    var count = 1 
     setTodos(todos.filter((todo) => todo.id !== id));
+    todos.map((el)=>{
+      if (el.id !== id){
+        el.questionNumber = count
+        count += 1
+      }
+    })
   }
 
   function addTodo(title) {
+    var tmp = countQuestion
     setCountQuestion(countQuestion + 1);
     setTodos(
       todos.concat([
         {
-          questionNumber: countQuestion,
-          title,
+          questionNumber: tmp + 1,
+          title: title,
           id: Date.now(),
           data: [],
           isComment: false,
@@ -148,7 +158,7 @@ export default function App() {
     form.set("form_description", formInfo.description);
     form.set("form_date", formInfo.date);
     form.set("questions", todos);
-    console.log(form)
+    console.log(Object.fromEntries(form))
 
     setFormInfo({
       name: formInfo.name,
@@ -156,7 +166,31 @@ export default function App() {
       date: formInfo.date,
       isClicked: true,
     });
-  }
+
+  var axios = require('axios');
+  var data = JSON.stringify(Object.fromEntries(form));
+  
+  var config = {
+    method: 'post',
+    url: 'http://127.0.0.1:8000/api/create_form',
+    headers: { 
+      'Authorization': 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==', 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+  console.log(countQuestion)
+
+}
 
   return (
     <Context.Provider
