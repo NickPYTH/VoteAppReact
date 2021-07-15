@@ -7,18 +7,14 @@ const styles = {
 
 };
 
-function TodoItem({ todo, index, onChange }) {
+function TodoItem({ todo, index }) {
   const { removeTodo } = useContext(Context)
   const { changeQuestionTitle } = useContext(Context)
   const { changeQuestionDescription } = useContext(Context)
+  const { changeQuestionComment } = useContext(Context)
   const [isComment, setIsComment] = useState(false)
   const [questionTitle, setQuestionTitle] = useState("")
   const [questionDescription, setQuestionDescription] = useState("")
-
-  function prepare(isComment) {
-    onChange("numbers", index, isComment)
-    console.log(isComment)
-  }
 
   return (
     <div>
@@ -96,7 +92,7 @@ function TodoItem({ todo, index, onChange }) {
                       color="primary"
                       onChange={() => {
                         setIsComment(isComment ? false : true)
-                        prepare(isComment ? false : true)
+                        changeQuestionComment(index, isComment ? false : true)
                       }}
                     />
             </div>

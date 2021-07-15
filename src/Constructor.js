@@ -7,9 +7,11 @@ import {
   ClockIcon,
   KeyIcon,
   NoteIcon,
+  PencilIcon,
+  SmileyIcon,
 } from "@primer/octicons-react";
 import Switch from "@material-ui/core/Switch";
-import axios from "axios"
+import axios from "axios";
 
 const AddTodo = React.lazy(
   () =>
@@ -25,9 +27,12 @@ export default function App() {
     name: "",
     description: "",
     date: "",
-    isClicked: false,
+    isInf: false,
+    isTryToSend: false,
   });
   const [isInfinity, setIsInfinity] = React.useState(false);
+  const [isFindEmpty, setIsFindEmpty] = React.useState(false);
+  const [isNoQuestions, setIsNoQuestions] = React.useState(false);
   const [todos, setTodos] = React.useState([]);
   const [countQuestion, setCountQuestion] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
@@ -43,7 +48,7 @@ export default function App() {
       tmp.map((val) => {
         if (val.questionNumber == id) {
           val.data = [1, 2, 3, 4, 5];
-          val.data.isComment = value
+          val.data.isComment = value;
         }
       });
       setTodos(tmp);
@@ -51,11 +56,10 @@ export default function App() {
       if (customRemove === undefined) {
         var tmp = todos;
         tmp.map((val) => {
-          if (val.questionNumber == id) {
-            if (value === true || value === false){
-              val.isComment = value
-            }
-            else{
+          if (val.questionNumber == id + 1) {
+            if (value === true || value === false) {
+              val.isComment = value;
+            } else {
               val.data.push(value);
             }
           }
@@ -64,7 +68,7 @@ export default function App() {
       } else {
         var tmp = todos;
         tmp.map((val) => {
-          if (val.questionNumber == id) {
+          if (val.questionNumber == id + 1) {
             val.data = val.data.filter((word) => word != value);
           }
         });
@@ -74,54 +78,62 @@ export default function App() {
       var tmp = todos;
       tmp.map((val) => {
         if (val.questionNumber == id) {
-          if (value === true || value === false){
-            console.log(value)
-            val.isComment = value
+          if (value === true || value === false) {
+            console.log(value);
+            val.isComment = value;
+          } else {
+            val.data = value;
           }
-          else{
-            val.data = value
-          }
-          
         }
       });
       setTodos(tmp);
     }
   }
 
-  function changeQuestionTitle(id, title_value){
-    var tmp = todos
-    tmp.map((question)=>{
-      if (question.questionNumber == (id+1)){
-        question.question_title = title_value
+  function changeQuestionTitle(id, title_value) {
+    var tmp = todos;
+    tmp.map((question) => {
+      if (question.questionNumber == id + 1) {
+        question.question_title = title_value;
       }
-    })
-    setTodos(tmp)
+    });
+    setTodos(tmp);
   }
 
-  function changeQuestionDescription(id, description_value){
-    var tmp = todos
-    tmp.map((question)=>{
-      if (question.questionNumber == (id+1)){
-        question.question_description = description_value
+  function changeQuestionDescription(id, description_value) {
+    var tmp = todos;
+    tmp.map((question) => {
+      if (question.questionNumber == id + 1) {
+        question.question_description = description_value;
       }
-    })
-    setTodos(tmp)
+    });
+    setTodos(tmp);
+  }
+
+  function changeQuestionComment(id, status) {
+    var tmp = todos;
+    tmp.map((question) => {
+      if (question.questionNumber == id + 1) {
+        question.isComment = status;
+      }
+    });
+    setTodos(tmp);
   }
 
   function removeTodo(id) {
-    setCountQuestion(countQuestion-1)
-    var count = 1 
+    setCountQuestion(countQuestion - 1);
+    var count = 1;
     setTodos(todos.filter((todo) => todo.id !== id));
-    todos.map((el)=>{
-      if (el.id !== id){
-        el.questionNumber = count
-        count += 1
+    todos.map((el) => {
+      if (el.id !== id) {
+        el.questionNumber = count;
+        count += 1;
       }
-    })
+    });
   }
 
   function addTodo(title) {
-    var tmp = countQuestion
+    var tmp = countQuestion;
     setCountQuestion(countQuestion + 1);
     setTodos(
       todos.concat([
@@ -172,45 +184,70 @@ export default function App() {
   }
 
   function showData() {
+    var axios = require("axios");
     var form = new Map();
     form.set("form_name", formInfo.name);
     form.set("form_description", formInfo.description);
     form.set("questions", todos);
-    if (formInfo.isClicked){
+    if (formInfo.isInf) {
       form.set("form_date", "inf");
+      setIsInfinity(true);
+    } else {
+      if (formInfo.date.trim() == "") {
+        form.set("form_date", "inf");
+        setIsInfinity(true);
+      } else {
+        form.set("form_date", formInfo.date);
+      }
     }
-    else{
-      form.set("form_date", formInfo.date);
+
+    formInfo.isTryToSend = true;
+
+    if (form.get("questions").length == 0) {
+      setIsNoQuestions(true);
+    } else {
+      setIsNoQuestions(false);
+
+      form.get("questions").map((question) => {
+        if (question.question_title.trim() == "") {
+          setIsFindEmpty(true);
+        }
+      });
+
+      console.log(Object.fromEntries(form));
+
+      var data = JSON.stringify(Object.fromEntries(form));
+      var config = {
+        method: "post",
+        url: "http://127.0.0.1:8000/api/create_form",
+        headers: {
+          Authorization:
+            "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
-    console.log(Object.fromEntries(form))
-
-
-    var axios = require('axios');
-    var data = JSON.stringify(Object.fromEntries(form));
-    
-    var config = {
-      method: 'post',
-      url: 'http://127.0.0.1:8000/api/create_form',
-      headers: { 
-        'Authorization': 'Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==', 
-        'Content-Type': 'application/json'
-      },
-      data : data
-    }
-  
-  axios(config)
-  .then(function (response) {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-
-}
+  }
 
   return (
     <Context.Provider
-      value={{ removeTodo, changeGroupChild, removeGroupChild, changeQuestionTitle, changeQuestionDescription }}
+      value={{
+        removeTodo,
+        changeGroupChild,
+        removeGroupChild,
+        changeQuestionTitle,
+        changeQuestionDescription,
+        changeQuestionComment,
+      }}
     >
       <div className="container mt-4 mt-lg-5">
         <div className="row">
@@ -239,8 +276,9 @@ export default function App() {
                         name: e.target.value,
                         description: formInfo.description,
                         date: formInfo.date,
-                        isClicked: formInfo.isClicked,
-                      })
+                        isInf: formInfo.isInf,
+                        isTryToSend: formInfo.isTryToSend,
+                      });
                     }}
                     required={true}
                     defaultValue={formInfo.name}
@@ -268,7 +306,8 @@ export default function App() {
                         name: formInfo.name,
                         description: e.target.value,
                         date: formInfo.date,
-                        isClicked: formInfo.isClicked,
+                        isInf: formInfo.isInf,
+                        isTryToSend: formInfo.isTryToSend,
                       });
                     }}
                     defaultValue={formInfo.description}
@@ -293,8 +332,14 @@ export default function App() {
                     <Switch
                       name="checkedB"
                       color="primary"
-                      onChange={() => {
-                        setIsInfinity(!isInfinity);
+                      onChange={(e) => {
+                        setFormInfo({
+                          name: formInfo.name,
+                          description: formInfo.description,
+                          date: e.target.value,
+                          isInf: formInfo.isInf ? false : true,
+                          isTryToSend: formInfo.isTryToSend,
+                        });
                       }}
                     />
                   </div>
@@ -313,7 +358,8 @@ export default function App() {
                             name: formInfo.name,
                             description: formInfo.description,
                             date: e.target.value,
-                            isClicked: formInfo.isClicked ? false : true,
+                            isInf: formInfo.isInf ? false : true,
+                            isTryToSend: formInfo.isTryToSend,
                           });
                         }}
                       />
@@ -323,7 +369,7 @@ export default function App() {
                     <span
                       style={{ width: 14 + "rem" }}
                       className="input-group-text d-none d-lg-flex"
-                      hidden={formInfo.isClicked}
+                      hidden={formInfo.isInf}
                     >
                       Дата окончания
                     </span>
@@ -336,11 +382,12 @@ export default function App() {
                         name: formInfo.name,
                         description: formInfo.description,
                         date: e.target.value,
-                        isClicked: formInfo.isClicked,
+                        isInf: formInfo.isInf,
+                        isTryToSend: formInfo.isTryToSend,
                       });
                     }}
                     defaultValue={formInfo.date}
-                    hidden={formInfo.isClicked}
+                    hidden={formInfo.isInf}
                   />
                 </div>
               </div>
@@ -355,24 +402,66 @@ export default function App() {
             </React.Suspense>
 
             <div className="row">
-              {formInfo.name.trim() == "" && formInfo.isClicked && (
+              {formInfo.name.trim() == "" && isInfinity && (
                 <div className="col-12 mt-2 justify-content-center text-center">
-                  <div class="alert alert-info" role="alert">
+                  <div className="alert alert-info" role="alert">
                     <NoteIcon size={20} /> Заполните имя формы
                   </div>
                 </div>
               )}
-              {formInfo.description.trim() == "" && formInfo.isClicked && (
+
+              {formInfo.name.trim() != "" &&
+                formInfo.name.trim().length < 2 &&
+                isInfinity && (
+                  <div className="col-12 mt-2 justify-content-center text-center">
+                    <div className="alert alert-info" role="alert">
+                      <NoteIcon size={20} /> Имя формы не может быть короче 2
+                      символов
+                    </div>
+                  </div>
+                )}
+
+              {formInfo.description.trim() == "" && isInfinity && (
                 <div className="col-12 justify-content-center text-center">
-                  <div class="alert alert-info" role="alert">
+                  <div className="alert alert-info" role="alert">
                     <KeyIcon size={20} /> Защитите доступ к результатам формы
                   </div>
                 </div>
               )}
 
-              {formInfo.date.trim() == "" && formInfo.isClicked && (
+              {formInfo.description.trim() != "" &&
+                formInfo.description.trim().length < 3 &&
+                isInfinity && (
+                  <div className="col-12 mt-2 justify-content-center text-center">
+                    <div className="alert alert-info" role="alert">
+                      <NoteIcon size={20} /> Пароль формы не может быть короче 3
+                      символов
+                    </div>
+                  </div>
+                )}
+
+              {isFindEmpty && (
                 <div className="col-12 justify-content-center text-center">
-                  <div class="alert alert-info" role="alert">
+                  <div className="alert alert-info" role="alert">
+                    {isInfinity}
+                    <PencilIcon size={20} /> Заполните пустые поля
+                  </div>
+                </div>
+              )}
+
+              {isNoQuestions && (
+                <div className="col-12 justify-content-center text-center">
+                  <div className="alert alert-info" role="alert">
+                    {isInfinity}
+                    <SmileyIcon size={20} /> Кажется Вы забыли добавить вопросы
+                  </div>
+                </div>
+              )}
+
+              {formInfo.date.trim() == "" && isInfinity && (
+                <div className="col-12 justify-content-center text-center">
+                  <div className="alert alert-info" role="alert">
+                    {isInfinity}
                     <ClockIcon size={20} /> Не выбрана дата окончания, по
                     умолчанию: <strong>бессрочно</strong>
                   </div>
@@ -404,4 +493,3 @@ export default function App() {
     </Context.Provider>
   );
 }
-
