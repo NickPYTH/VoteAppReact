@@ -150,10 +150,14 @@ export default function App() {
     );
   }
 
+  
+
   function changeGroupChild(childs) {
     var tmp = todos;
+    console.log(tmp)
     tmp.map((todos_item) => {
       todos_item.data.map((data) => {
+        
         childs.map((child) => {
           if (data.key == child.group_id) {
             if (!data.childs.has(child.child_id)) {

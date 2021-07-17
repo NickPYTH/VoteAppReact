@@ -44,16 +44,19 @@ function ChildGroup(props) {
             
     }
     function addTodo(group_id) {
+        var key =  Math.random();
         setTodos(
             todos.concat([
                 {
                     ques_index: props.index,
                     group_id: group_id,
-                    child_id: Math.random(),
+                    child_id: key,
                     value: "",
                 },
             ])
         )
+        
+        
     }
     function changeTodo(e, group_id, child_id) {
         var tmp = todos;
