@@ -79,7 +79,6 @@ export default function App() {
       tmp.map((val) => {
         if (val.questionNumber == id) {
           if (value === true || value === false) {
-            console.log(value);
             val.isComment = value;
           } else {
             val.data = value;
@@ -148,6 +147,17 @@ export default function App() {
         },
       ])
     );
+  }
+
+  function addGroupChild(child){
+    var tmp = todos;
+    tmp.map((todos_item) => {
+      console.log(todos_item);
+      console.log(child);
+      todos_item.data.push(child);
+    });
+    setTodos(tmp);
+    //console.log(tmp);
   }
 
   function changeGroupChild(childs) {
@@ -242,6 +252,7 @@ export default function App() {
     <Context.Provider
       value={{
         removeTodo,
+        addGroupChild,
         changeGroupChild,
         removeGroupChild,
         changeQuestionTitle,

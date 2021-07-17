@@ -6,7 +6,7 @@ import QuestionList from "./ChildGroupItem.js";
 const styles = {};
 
 function ChildGroup(props) {
-    const { removeGroup, changeGroupChild, removeGroupChild } = useContext(Context);
+    const { removeGroup, changeGroupChild, removeGroupChild, addGroupChild } = useContext(Context);
     const [title, setTitle] = React.useState(new Map());
     const { changeTitle } = useContext(Context);
 
@@ -38,22 +38,25 @@ function ChildGroup(props) {
                 }
             });
             setTodos(tmp);
-            console.log(todos)
             removeGroupChild(tmp, child_id)
         }
             
     }
     function addTodo(group_id) {
+        var child = {
+            ques_index: props.index,
+            group_id: group_id,
+            child_id: Math.random(),
+            value: "",
+        };
         setTodos(
             todos.concat([
-                {
-                    ques_index: props.index,
-                    group_id: group_id,
-                    child_id: Math.random(),
-                    value: "",
-                },
+                child
             ])
-        )
+        );
+
+        addGroupChild(child)
+        
     }
     function changeTodo(e, group_id, child_id) {
         var tmp = todos;
@@ -63,7 +66,8 @@ function ChildGroup(props) {
             }
         });
         setTodos(tmp);
-        changeGroupChild(tmp)
+
+        changeGroupChild(tmp);
         
     }
 

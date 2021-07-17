@@ -9,7 +9,7 @@ const styles = {};
 function TodoItem({ todo, index, onChange }) {
     const [isComment, setIsComment] = useState(false)
     const { removeTodo } = useContext(Context)
-    const { changeGroupChild, removeGroupChild } = useContext(Context)
+    const { changeGroupChild, removeGroupChild, addGroupChild } = useContext(Context)
     const [groups, setGroups] = React.useState([])
     const { changeQuestionTitle } = useContext(Context)
     const { changeQuestionDescription } = useContext(Context)
@@ -90,7 +90,7 @@ function TodoItem({ todo, index, onChange }) {
 
 
     return (
-        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle, onChange, changeGroupChild, removeGroupChild }}>
+        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle, onChange, addGroupChild, changeGroupChild, removeGroupChild }}>
             <div>
                 <div id={index + 1} className="card mb-3">
                     <div className="card-body">
