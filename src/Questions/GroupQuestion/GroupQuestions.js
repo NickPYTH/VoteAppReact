@@ -9,7 +9,7 @@ const styles = {};
 function TodoItem({ todo, index, onChange }) {
     const [isComment, setIsComment] = useState(false)
     const { removeTodo } = useContext(Context)
-    const { changeGroupChild, removeGroupChild } = useContext(Context)
+    const { changeGroupChild, removeGroupChild, addGroupChild, removeGroupInGroupQuestion } = useContext(Context)
     const [groups, setGroups] = React.useState([])
     const { changeQuestionTitle } = useContext(Context)
     const { changeQuestionDescription } = useContext(Context)
@@ -17,19 +17,22 @@ function TodoItem({ todo, index, onChange }) {
     const [questionDescription, setQuestionDescription] = useState("")
     
     function removeGroup(key, childArray) { 
-        if (groups.length != 1){
-            var tmp = new Array()
+            var tmp =[];
+            var child_tmp = [];
+            childArray.map((group)=>{
+                if (group.group_id != key){
+                    child_tmp.push(group)
+                }
+            })
             groups.map((group)=>{
                 if (group.key != key){
                     tmp.push(group)
                 }
             })
-            setGroups([]);
+
             setGroups(tmp);
-            onChange("groups", index, tmp, null)
-            changeGroupChild(childArray)
-        }
-        
+            removeGroupInGroupQuestion(key);
+            //changeGroupChild(child_tmp);
     }
 
     function addChild(group_key, value) {
@@ -90,7 +93,7 @@ function TodoItem({ todo, index, onChange }) {
 
 
     return (
-        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle, onChange, changeGroupChild, removeGroupChild }}>
+        <Context.Provider value={{ removeGroup, addChild, removeChild, changeTitle, onChange, addGroupChild, changeGroupChild, removeGroupChild }}>
             <div>
                 <div id={index + 1} className="card mb-3">
                     <div className="card-body">

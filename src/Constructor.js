@@ -79,7 +79,6 @@ export default function App() {
       tmp.map((val) => {
         if (val.questionNumber == id) {
           if (value === true || value === false) {
-            console.log(value);
             val.isComment = value;
           } else {
             val.data = value;
@@ -150,11 +149,49 @@ export default function App() {
     );
   }
 
+  function removeGroupInGroupQuestion(group_id){
+    var todos_tmp = todos;
+    var tmp = [];
+    todos_tmp.map((question)=>{
+      if (question.title == "group"){
+        question.data.map((answer)=>{
+          if (answer.group_id != group_id){
+            tmp.push(answer);
+          }
+        });
+      }
+      question.data = tmp;
+    })
+    setTodos(todos_tmp);
+  }
   
+
+  function addGroupChild(child){
+    var tmp = todos;
+    tmp.map((todos_item) => {
+      todos_item.data.push(child);
+    });
+    setTodos(tmp);
+  }
+
+  function removeGroupChild(childs, child_id) {
+    var tmp = todos;
+    var new_items = [];
+    tmp.map((todos_item) => {
+      todos_item.data.map((data) => {
+        if (data.child_id != child_id){
+          new_items.push(data)
+        }
+      });
+      todos_item.data = new_items;
+      new_items = [];
+    });
+    setTodos(tmp);
+  }
+
 
   function changeGroupChild(childs) {
     var tmp = todos;
-    console.log(tmp)
     tmp.map((todos_item) => {
       todos_item.data.map((data) => {
         
@@ -166,20 +203,6 @@ export default function App() {
               data.childs.delete(child.child_id);
               data.childs.set(child.child_id, child.value);
             }
-          }
-        });
-      });
-    });
-    setTodos(tmp);
-  }
-
-  function removeGroupChild(childs, child_id) {
-    var tmp = todos;
-    tmp.map((todos_item) => {
-      todos_item.data.map((data) => {
-        childs.map((child) => {
-          if (data.key == child.group_id) {
-            data.childs.delete(child_id);
           }
         });
       });
@@ -246,6 +269,8 @@ export default function App() {
     <Context.Provider
       value={{
         removeTodo,
+        removeGroupInGroupQuestion,
+        addGroupChild,
         changeGroupChild,
         removeGroupChild,
         changeQuestionTitle,
