@@ -9,7 +9,7 @@ const styles = {};
 function TodoItem({ todo, index, onChange }) {
     const [isComment, setIsComment] = useState(false)
     const { removeTodo } = useContext(Context)
-    const { changeGroupChild, removeGroupChild, addGroupChild, removeGroupInGroupQuestion } = useContext(Context)
+    const { changeGroupChild, removeGroupChild, addGroupChild, removeGroupInGroupQuestion, switchCommentInGroupQuestion } = useContext(Context)
     const [groups, setGroups] = React.useState([])
     const { changeQuestionTitle } = useContext(Context)
     const { changeQuestionDescription } = useContext(Context)
@@ -191,7 +191,7 @@ function TodoItem({ todo, index, onChange }) {
                                     color="primary"
                                     onChange={() => {
                                         setIsComment(isComment ? false : true)
-                                        onChange("groups", index, isComment ? false : true)
+                                        switchCommentInGroupQuestion(index, isComment ? false : true)
                                     }}
                                     />
             </div>

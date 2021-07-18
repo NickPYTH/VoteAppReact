@@ -13,12 +13,12 @@ import {
 import Switch from "@material-ui/core/Switch";
 import axios from "axios";
 
-const AddTodo = React.lazy(
+const AddModal = React.lazy(
   () =>
     new Promise((resolve) => {
       setTimeout(() => {
-        resolve(import("./Questions/AddQuestion"));
-      }, 3000);
+        resolve(import("./CreateFormModal/Modal"));
+      }, 0);
     })
 );
 
@@ -35,7 +35,8 @@ export default function App() {
   const [isNoQuestions, setIsNoQuestions] = React.useState(false);
   const [todos, setTodos] = React.useState([]);
   const [countQuestion, setCountQuestion] = React.useState(0);
-  const [loading, setLoading] = React.useState(true);
+  const [link, setLink] = React.useState();
+  const [modalWindow, setModalWindow] = React.useState(false);
 
   function toggleTodo(
     type,
@@ -149,24 +150,33 @@ export default function App() {
     );
   }
 
-  function removeGroupInGroupQuestion(group_id){
+  function removeGroupInGroupQuestion(group_id) {
     var todos_tmp = todos;
     var tmp = [];
-    todos_tmp.map((question)=>{
-      if (question.title == "group"){
-        question.data.map((answer)=>{
-          if (answer.group_id != group_id){
+    todos_tmp.map((question) => {
+      if (question.title == "group") {
+        question.data.map((answer) => {
+          if (answer.group_id != group_id) {
             tmp.push(answer);
           }
         });
       }
       question.data = tmp;
-    })
+    });
     setTodos(todos_tmp);
   }
-  
 
-  function addGroupChild(child){
+  function switchCommentInGroupQuestion(index, value) {
+    var todos_tmp = todos;
+    todos_tmp.map((question) => {
+      if (question.title == "group" && question.questionNumber == index + 1) {
+        question.isComment = value;
+      }
+    });
+    setTodos(todos_tmp);
+  }
+
+  function addGroupChild(child) {
     var tmp = todos;
     tmp.map((todos_item) => {
       todos_item.data.push(child);
@@ -179,8 +189,8 @@ export default function App() {
     var new_items = [];
     tmp.map((todos_item) => {
       todos_item.data.map((data) => {
-        if (data.child_id != child_id){
-          new_items.push(data)
+        if (data.child_id != child_id) {
+          new_items.push(data);
         }
       });
       todos_item.data = new_items;
@@ -189,12 +199,10 @@ export default function App() {
     setTodos(tmp);
   }
 
-
   function changeGroupChild(childs) {
     var tmp = todos;
     tmp.map((todos_item) => {
       todos_item.data.map((data) => {
-        
         childs.map((child) => {
           if (data.key == child.group_id) {
             if (!data.childs.has(child.child_id)) {
@@ -257,7 +265,9 @@ export default function App() {
 
       axios(config)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
+          var link_ = response.data.link;
+          setLink(link_);
+          setModalWindow(true);
         })
         .catch(function (error) {
           console.log(error);
@@ -270,6 +280,7 @@ export default function App() {
       value={{
         removeTodo,
         removeGroupInGroupQuestion,
+        switchCommentInGroupQuestion,
         addGroupChild,
         changeGroupChild,
         removeGroupChild,
@@ -278,7 +289,18 @@ export default function App() {
         changeQuestionComment,
       }}
     >
-      <div className="container mt-4 mt-lg-5">
+      {modalWindow ? (
+        <React.Suspense fallback={<Loader />}>
+          <AddModal onCreate={AddModal} visible={modalWindow} formName={formInfo.name} formPass={formInfo.description} formLink={link}/>
+        </React.Suspense>
+      ) : (
+        <div></div>
+      )}
+
+      <div
+        className="container mt-4 mt-lg-5"
+        style={modalWindow ? { opacity: "0.4" } : { opacity: "1" }}
+      >
         <div className="row">
           <div className="col-12">
             <div className="card mb-3">
@@ -422,13 +444,9 @@ export default function App() {
               </div>
             </div>
 
-            {loading && <Loader />}
-
             <QuestionList todos={todos} onToggle={toggleTodo} />
 
-            <React.Suspense fallback={<Loader />}>
-              <AddQuestion onCreate={addTodo} />
-            </React.Suspense>
+            <AddQuestion onCreate={addTodo} />
 
             <div className="row">
               {formInfo.name.trim() == "" && isInfinity && (
