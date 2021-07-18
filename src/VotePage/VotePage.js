@@ -6,6 +6,7 @@ import axios from "axios";
 
 function VotePage(props) {
     const [loader, setLoader] = React.useState(true)
+    const [questionList, setQuestionList] = React.useState()
 
     useEffect(() => {
         
@@ -24,7 +25,8 @@ function VotePage(props) {
 
         axios(config)
             .then(function (response) {
-                console.log(response.data)
+                var questions = JSON.parse(response.data)
+                setQuestionList(questions);
                 setLoader(false);
             })
             .catch(function (error) {
@@ -41,9 +43,26 @@ function VotePage(props) {
         );
     }
     else{
+       return(
+        <div>
+        {questionList.map((question)=>{
         return (
-            <div>Kek</div>
+            <div>
+                {question.question_name}|
+                {question.question_type}|
+                {question.answers.map((answer)=>{
+                    var tmp = answer.answer
+                    console.log(tmp)
+                    return (<div>{tmp}</div>)
+                })}
+                <br/>
+                ---------------------------------------------
+            </div>
         )
+    })
+}
+    </div>
+       )
     }
     
 }

@@ -29,7 +29,7 @@ function SubCustom(props) {
                         </div>
                         <div
                             name={currentValue.key}
-                            style={{ overflowX : "scroll" }}
+                            style={{ overflowX : "" }}
                             className="form-control"
                         >{currentValue.value}</div>
                         <button

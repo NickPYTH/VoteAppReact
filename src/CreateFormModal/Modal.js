@@ -16,7 +16,7 @@ function Modal(props) {
   if (props.visible){
     var form_name = props.formName;
     var form_password = props.formPass;
-    var link = "http://localhost:3000/form/"+props.formLink;
+    var link = "http://localhost:3000/"+props.formLink;
     var backColor = "#FFFFFF";
     var fontColor = "#000000";
     var level = 'L';  // ('L' 'M' 'Q' 'H')
