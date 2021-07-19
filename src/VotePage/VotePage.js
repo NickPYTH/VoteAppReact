@@ -38,6 +38,7 @@ function VotePage(props) {
 
   function sendForm() {
     var toSend = {
+        "form_key": props.formKey,
         "answers": Object.fromEntries(answers),
         "comments": Object.fromEntries(comments),
     }
@@ -55,7 +56,8 @@ function VotePage(props) {
 
     axios(config)
       .then(function (response) {
-        Cookies.set(props.formKey, true)
+        Cookies.set(props.formKey, true);
+        document.location.href = 'http://127.0.0.1:3000/results/'+props.formKey;
       })
       .catch(function (error) {
         console.log(error);

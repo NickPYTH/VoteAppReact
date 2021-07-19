@@ -14,6 +14,7 @@ import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Constructor from "./Constructor";
 import VotePage from "./VotePage/VotePage";
+import PublicStatsPage from "./Stats/PublicStatsPage";
 import "./App.css";
 
 export default function App() {
@@ -70,6 +71,11 @@ export default function App() {
           </Navbar.Collapse>
         </Navbar>
         <Switch>
+          <Route
+            exact
+            path="/results/:a([0-9]+)"
+            render={({ match }) => <PublicStatsPage formKey={match.params.a} />}
+          />
           <Route
             exact
             path="/:a([0-9]+)"
