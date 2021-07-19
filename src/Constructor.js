@@ -291,7 +291,13 @@ export default function App() {
     >
       {modalWindow ? (
         <React.Suspense fallback={<Loader />}>
-          <AddModal onCreate={AddModal} visible={modalWindow} formName={formInfo.name} formPass={formInfo.description} formLink={link}/>
+          <AddModal
+            onCreate={AddModal}
+            visible={modalWindow}
+            formName={formInfo.name}
+            formPass={formInfo.description}
+            formLink={link}
+          />
         </React.Suspense>
       ) : (
         <div></div>

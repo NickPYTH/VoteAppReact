@@ -13,7 +13,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import Constructor from "./Constructor";
-import VotePage from "./VotePage/VotePage"
+import VotePage from "./VotePage/VotePage";
 import "./App.css";
 
 export default function App() {
@@ -70,12 +70,10 @@ export default function App() {
           </Navbar.Collapse>
         </Navbar>
         <Switch>
-        <Route
+          <Route
             exact
             path="/:a([0-9]+)"
-            render={({ match }) => (
-              <VotePage formKey={match.params.a} />
-            )}
+            render={({ match }) => <VotePage formKey={match.params.a} />}
           />
           <Route path="/constructor">
             <Constructor />
@@ -89,7 +87,6 @@ export default function App() {
           <Route path="/">
             <Home />
           </Route>
-         
         </Switch>
       </Router>
     </div>

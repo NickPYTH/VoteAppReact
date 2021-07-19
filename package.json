@@ -14,9 +14,11 @@
     "babel-plugin-transform-react-statements": "^0.7.3",
     "bootstrap": "^4.6.0",
     "date-fns": "^2.22.1",
+    "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^17.0.2",
     "react-qr-code": "^2.0.0",
     "react-router-dom": "^5.2.0",
@@ -46,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.3.2"
   }
 }

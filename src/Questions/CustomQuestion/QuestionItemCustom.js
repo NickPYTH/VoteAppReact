@@ -7,14 +7,14 @@ import Switch from "@material-ui/core/Switch";
 const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
-  const [isComment, setIsComment] = useState(false)
-  const { removeTodo } = useContext(Context)
-  const [customAnswers, setCustomAnswers] = React.useState([])
-  const [customAnswersEnter, setCustomAnswersEnter] = React.useState("")
-  const { changeQuestionTitle } = useContext(Context)
-  const { changeQuestionDescription } = useContext(Context)
-  const [questionTitle, setQuestionTitle] = useState("")
-  const [questionDescription, setQuestionDescription] = useState("")
+  const [isComment, setIsComment] = useState(false);
+  const { removeTodo } = useContext(Context);
+  const [customAnswers, setCustomAnswers] = React.useState([]);
+  const [customAnswersEnter, setCustomAnswersEnter] = React.useState("");
+  const { changeQuestionTitle } = useContext(Context);
+  const { changeQuestionDescription } = useContext(Context);
+  const [questionTitle, setQuestionTitle] = useState("");
+  const [questionDescription, setQuestionDescription] = useState("");
 
   function removeSubs(key, id, value) {
     var tmp = [];
@@ -87,11 +87,11 @@ function TodoItem({ todo, index, onChange }) {
                 required={true}
                 type="text"
                 className="form-control"
-                onChange={(e)=>{
-                  setQuestionTitle(e.target.value)
-                  changeQuestionTitle(index, e.target.value)
-              }}
-              defaultValue={questionTitle}
+                onChange={(e) => {
+                  setQuestionTitle(e.target.value);
+                  changeQuestionTitle(index, e.target.value);
+                }}
+                defaultValue={questionTitle}
               ></input>
             </div>
             <div className="input-group mb-3">
@@ -110,61 +110,63 @@ function TodoItem({ todo, index, onChange }) {
                 required={true}
                 type="text"
                 className="form-control"
-                onChange={(e)=>{
-                  setQuestionDescription(e.target.value)
-                  changeQuestionDescription(index, e.target.value)
-              }}
-              defaultValue={questionDescription}
+                onChange={(e) => {
+                  setQuestionDescription(e.target.value);
+                  changeQuestionDescription(index, e.target.value);
+                }}
+                defaultValue={questionDescription}
               ></input>
             </div>
             <SubCustom index={index} answers={customAnswers} />
 
             <div className="input-group text-center text-lg-center">
-                <div className="col-12 col-lg-9 mb-1">
-                  <input
-                    placeholder="Введите ответ"
-                    type="text"
-                    className="form-control"
-                    value={customAnswersEnter}
-                    onChange={(e) => setCustomAnswersEnter(e.target.value)}
-                  ></input>
-                </div>
-                <div className="col-12 col-lg-3">
-                  <button
-                    className="btn btn-outline-secondary"
-                    onClick={() => {
-                      setCustomAnswers(
-                        customAnswers.concat({
-                          ques_index: index + 1,
-                          key: Math.random(),
-                          value: customAnswersEnter,
-                        })
-                      );
-                      addAnsToData(index, customAnswersEnter);
-                      setCustomAnswersEnter("");
-                    }}
-                  >
-                    Добавить ответ
-                  </button>
-                  
-                </div>
-                <div className="input-group-prepend mt-3 w-100">
-              <div style={{ width: 14 + "rem" }} className="input-group-text rounded-left">
-                Коментарий к ответу
+              <div className="col-12 col-lg-9 mb-1">
+                <input
+                  placeholder="Введите ответ"
+                  type="text"
+                  className="form-control"
+                  value={customAnswersEnter}
+                  onChange={(e) => setCustomAnswersEnter(e.target.value)}
+                ></input>
               </div>
-              <Switch
-                      name="checkedB"
-                      color="primary"
-                      onChange={() => {
-                        setIsComment(isComment ? false : true)
-                        addAnsToData(index, isComment ? false : true)
-                      }}
-                    />
-            </div>
+              <div className="col-12 col-lg-3">
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={() => {
+                    setCustomAnswers(
+                      customAnswers.concat({
+                        ques_index: index + 1,
+                        key: Math.random(),
+                        value: customAnswersEnter,
+                      })
+                    );
+                    addAnsToData(index, customAnswersEnter);
+                    setCustomAnswersEnter("");
+                  }}
+                >
+                  Добавить ответ
+                </button>
+              </div>
+              <div className="input-group-prepend mt-3 w-100">
+                <div
+                  style={{ width: 14 + "rem" }}
+                  className="input-group-text rounded-left"
+                >
+                  Коментарий к ответу
+                </div>
+                <Switch
+                  name="checkedB"
+                  color="primary"
+                  onChange={() => {
+                    setIsComment(isComment ? false : true);
+                    addAnsToData(index, isComment ? false : true);
+                  }}
+                />
               </div>
             </div>
           </div>
         </div>
+      </div>
     </Context.Provider>
   );
 }
@@ -176,4 +178,3 @@ TodoItem.propTypes = {
 };
 
 export default TodoItem;
-
