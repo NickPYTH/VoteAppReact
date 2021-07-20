@@ -35,7 +35,7 @@ function PublicStats(props) {
     var data = JSON.stringify({ "form_key": props.formKey });
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/get_form_public_results",
+      url: "http://188.225.83.42:4444/api/get_form_public_results",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",

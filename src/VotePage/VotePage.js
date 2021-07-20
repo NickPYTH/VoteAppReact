@@ -45,7 +45,7 @@ function VotePage(props) {
     var axios = require("axios");
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/send_form",
+      url: "http://188.225.83.42:4444/api/send_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -57,7 +57,7 @@ function VotePage(props) {
     axios(config)
       .then(function (response) {
         Cookies.set(props.formKey, true);
-        document.location.href = 'http://127.0.0.1:3000/results/'+props.formKey;
+        document.location.href = 'http://anketa-pvi.ru/results/'+props.formKey;
       })
       .catch(function (error) {
         console.log(error);
@@ -69,7 +69,7 @@ function VotePage(props) {
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/get_form",
+      url: "http://188.225.83.42:4444/api/get_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
