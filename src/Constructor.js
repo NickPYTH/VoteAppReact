@@ -254,7 +254,7 @@ export default function App() {
       var data = JSON.stringify(Object.fromEntries(form));
       var config = {
         method: "post",
-        url: "http://188.225.83.42:4444/api/create_form",
+        url: "http://127.0.0.1:8000/api/create_form",
         headers: {
           Authorization:
             "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",

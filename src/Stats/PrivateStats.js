@@ -15,7 +15,7 @@ const options = {
   },
 };
 
-function PublicStats(props) {
+function PrivateStats(props) {
   const [loader, setLoader] = React.useState(true);
   const [questionList, setQuestionList] = React.useState();
 
@@ -24,7 +24,7 @@ function PublicStats(props) {
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/get_form_public_results",
+      url: "http://127.0.0.1:8000/api/get_form_private_results",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -57,9 +57,7 @@ function PublicStats(props) {
     return (
       <div className="container mt-3">
         <div className="row">
-            <div className="w-100 text-center h3">
-              Текущие результаты
-            </div>
+            <div className="w-100 text-center h3">Статистика</div>
             {questionList.questions.map((ans) => {
               var arr = ans.answers;
               var result = {};
@@ -90,9 +88,8 @@ function PublicStats(props) {
             })}
           </div>
         </div>
-
     );
   }
 }
 
-export default PublicStats;
+export default PrivateStats;

@@ -15,6 +15,7 @@ import Button from "react-bootstrap/Button";
 import Constructor from "./Constructor";
 import VotePage from "./VotePage/VotePage";
 import PublicStatsPage from "./Stats/PublicStatsPage";
+import PrivateStatsLogin from "./Stats/PrivateStatsLogin";
 import "./App.css";
 
 export default function App() {
@@ -88,7 +89,7 @@ export default function App() {
             <Users />
           </Route>
           <Route path="/stats">
-            <Home />
+            <PrivateStatsLogin />
           </Route>
           <Route path="/">
             <Home />

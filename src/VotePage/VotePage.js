@@ -5,7 +5,7 @@ import Number from "./Numbers";
 import Group from "./Group";
 import Custom from "./Custom";
 import axios from "axios";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 function VotePage(props) {
   const [loader, setLoader] = React.useState(true);
@@ -24,7 +24,7 @@ function VotePage(props) {
     }
     setAnswers(tmp);
   }
-  
+
   function changeCommentsList(question, value) {
     var tmp = comments;
     if (tmp.get(question) == undefined) {
@@ -38,14 +38,14 @@ function VotePage(props) {
 
   function sendForm() {
     var toSend = {
-        "form_key": props.formKey,
-        "answers": Object.fromEntries(answers),
-        "comments": Object.fromEntries(comments),
-    }
+      form_key: props.formKey,
+      answers: Object.fromEntries(answers),
+      comments: Object.fromEntries(comments),
+    };
     var axios = require("axios");
     var config = {
       method: "post",
-      url: "http://188.225.83.42:4444/api/send_form",
+      url: "http://127.0.0.1:8000/api/send_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -57,7 +57,8 @@ function VotePage(props) {
     axios(config)
       .then(function (response) {
         Cookies.set(props.formKey, true);
-        document.location.href = 'http://anketa-pvi.ru/results/'+props.formKey;
+        document.location.href =
+          "http://127.0.0.1:3000/results/" + props.formKey;
       })
       .catch(function (error) {
         console.log(error);
@@ -69,7 +70,7 @@ function VotePage(props) {
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://188.225.83.42:4444/api/get_form",
+      url: "http://127.0.0.1:8000/api/get_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -84,13 +85,12 @@ function VotePage(props) {
         setQuestionList(questions);
         setLoader(false);
 
-        var end_date_ = questions[0].date.slice(0, 10)
-        var current_date_ = (new Date()).toISOString().slice(0, 10)
+        var end_date_ = questions[0].date.slice(0, 10);
+        var current_date_ = new Date().toISOString().slice(0, 10);
         var end_date = new Date(end_date_);
         var current_date = new Date(current_date_);
         if (end_date - current_date < 0) {
-            setIsEnd(true);
-            
+          setIsEnd(true);
         }
       })
       .catch(function (error) {
@@ -98,7 +98,6 @@ function VotePage(props) {
         console.log(error);
       });
   }, []);
-
 
   if (loader) {
     return (
@@ -142,23 +141,23 @@ function VotePage(props) {
               }
             })}
             <div className="w-100 text-center mb-3">
-              
-
-            {isEnd==true ? 
-                 <button className="btn btn-secondary" disabled={true}>
-                 Голосование окончено
-                    </button>
-              :
-                <div>{Cookies.get(props.formKey) == undefined ? 
-                <button className="btn btn-secondary" onClick={sendForm}>
-                  Отправить
-                </button>
-                :
+              {isEnd == true ? (
                 <button className="btn btn-secondary" disabled={true}>
-                  Вы уже голосовали
-                </button> 
-                }</div>
-            }
+                  Голосование окончено
+                </button>
+              ) : (
+                <div>
+                  {Cookies.get(props.formKey) == undefined ? (
+                    <button className="btn btn-secondary" onClick={sendForm}>
+                      Отправить
+                    </button>
+                  ) : (
+                    <button className="btn btn-secondary" disabled={true}>
+                      Вы уже голосовали
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
