@@ -83,6 +83,7 @@ function GroupQuestion(props) {
                 props.onChange(props.data.question_name, e.target.value);
               }}
             >
+              <option value={"default"}>Выберите</option>
               {availableItems.map((item) => {
                 return <option value={item}>{item}</option>;
               })}

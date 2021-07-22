@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../Loader";
 import { Bar } from "react-chartjs-2";
+import reactDom from "react-dom";
 
 const options = {
   scales: {
@@ -18,13 +19,14 @@ const options = {
 function PrivateStats(props) {
   const [loader, setLoader] = React.useState(true);
   const [questionList, setQuestionList] = React.useState();
+  const [fileLink, setFileLink] = React.useState("");
 
   useEffect(() => {
     var axios = require("axios");
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/get_form_private_results",
+      url: "http://188.225.83.42:8000/api/get_form_private_results",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -37,6 +39,7 @@ function PrivateStats(props) {
       .then(function (response) {
         var questions = response.data;
         setQuestionList(questions);
+        setFileLink(questions.file_link);
         setLoader(false);
       })
       .catch(function (error) {
@@ -44,8 +47,6 @@ function PrivateStats(props) {
         console.log(error);
       });
   }, []);
-
-  console.log(questionList);
 
   if (loader) {
     return (
@@ -67,7 +68,6 @@ function PrivateStats(props) {
                 else result[a] = 1;
               }
               var labels = [];
-              console.log(ans.question, Object.values(result));
               return (
                 <div className="col-12 col-lg-6">
                 <Bar
@@ -86,6 +86,9 @@ function PrivateStats(props) {
                 </div>
               );
             })}
+          </div>
+          <div className="w-100 text-center">
+              <a href={fileLink} className="btn btn-outline-secondary">Скачать статитстику</a>
           </div>
         </div>
     );

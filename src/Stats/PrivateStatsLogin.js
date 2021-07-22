@@ -31,13 +31,12 @@ function PrivateStatsLogin(props) {
   ])
 
   function login(form_name, password){
-    console.log(form_name, password, isRemember);
     setLoader(true);
     var axios = require("axios");
     var data = JSON.stringify({ form_name: form_name, password: password });
     var config = {
       method: "post",
-      url: "http://127.0.0.1:8000/api/login_private_stats",
+      url: "http://188.225.83.42:8000/api/login_private_stats",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -48,14 +47,12 @@ function PrivateStatsLogin(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
         if (response.data == "Failed"){
           setIsLoginFailed(true);
         }
         else{
           setIsLoginFailed(false);
           setIsLogedIn(true);
-          console.log(response.data);
           setFormKey(response.data);
         }
         setLoader(false);
