@@ -19,6 +19,8 @@ function PublicStats(props) {
   const [loader, setLoader] = React.useState(true);
   const [questionList, setQuestionList] = React.useState();
 
+  document.title = "VF | Результаты";
+
   useEffect(() => {
     var axios = require("axios");
     var data = JSON.stringify({ form_key: props.formKey });

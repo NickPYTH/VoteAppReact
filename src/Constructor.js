@@ -30,6 +30,9 @@ export default function App() {
     isInf: false,
     isTryToSend: false,
   });
+
+  document.title = "VF | Конструктор";
+
   const [isInfinity, setIsInfinity] = React.useState(false);
   const [isFindEmpty, setIsFindEmpty] = React.useState(false);
   const [isNoQuestions, setIsNoQuestions] = React.useState(false);

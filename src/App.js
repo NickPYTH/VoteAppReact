@@ -27,6 +27,7 @@ export default function App() {
     color: "white",
     outline: "none",
   };
+  document.title = 'VoteForms';
 
   return (
     <div>

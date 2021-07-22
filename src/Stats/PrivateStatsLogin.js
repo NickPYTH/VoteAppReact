@@ -10,6 +10,8 @@ function PrivateStatsLogin(props) {
     return Math.round(rand);
   }
 
+  document.title = "VF | Статистика";
+
   const [ nameInput, setNameInput ] = React.useState("");
   const [ passwordInput, setPasswordInput] = React.useState("");
   const [ isRemember, setIsRemember ] = React.useState(false);
