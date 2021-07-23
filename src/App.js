@@ -17,6 +17,7 @@ import VotePage from "./VotePage/VotePage";
 import PublicStatsPage from "./Stats/PublicStatsPage";
 import PrivateStatsLogin from "./Stats/PrivateStatsLogin";
 import "./App.css";
+import EmptyPage from "./EmptyPage";
 
 export default function App() {
   let navLinkStyles = {
@@ -87,7 +88,7 @@ export default function App() {
             <Constructor />
           </Route>
           <Route path="/edit">
-            <Users />
+            <EmptyPage />
           </Route>
           <Route path="/stats">
             <PrivateStatsLogin />
