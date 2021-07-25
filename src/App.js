@@ -103,9 +103,13 @@ export default function App() {
 }
 
 function Home() {
-  return <h2>Home</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
+  return (
+    <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Опачки!</h1>
+            <p class="lead">Тут будет главная страница :)</p>
+          </div>
+        </div>
+  )
+  ;
 }

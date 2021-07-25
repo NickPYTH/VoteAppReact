@@ -44,7 +44,7 @@ function Modal(props) {
               <div className="text-center mb-3">
                 <QRCode
                   value={link}
-                  size={256}
+                  size={128}
                   bgColor={backColor}
                   fgColor={fontColor}
                   level={level}

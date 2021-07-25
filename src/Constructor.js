@@ -221,7 +221,8 @@ export default function App() {
     setTodos(tmp);
   }
 
-  function showData() {
+  function sendCreatedForm() {
+    var findEmpty = false;
     var axios = require("axios");
     var form = new Map();
     form.set("form_name", formInfo.name);
@@ -248,33 +249,62 @@ export default function App() {
 
       form.get("questions").map((question) => {
         if (question.question_title.trim() == "") {
-          setIsFindEmpty(true);
+          findEmpty = true;
         }
       });
 
+      var questions_list = form.get("questions")
+      questions_list.map((question)=>{
+        if (question.title == "group"){
+          question.data.map((el)=>{
+            if (el.group_name == "" || el.group_name == undefined){
+              findEmpty = true;
+            }
+            if (Object.values(el).includes("")){
+              findEmpty = true;
+            }
+          })
+        }
+        else if (question.title == "custom"){
+          if (question.question_title == ""){
+            findEmpty = true;
+          }
+          if (Object.values(question.data).includes("")){
+            findEmpty = true;
+          }
+        }
+        else if (question.title == "numbers"){
+          if (question.question_title == ""){
+            findEmpty = true;
+          }
+        }
+      })
 
-
-      var data = JSON.stringify(Object.fromEntries(form));
-      var config = {
-        method: "post",
-        url: "http://188.225.83.42:8000/api/create_form",
-        headers: {
-          Authorization:
-            "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios(config)
-        .then(function (response) {
-          var link_ = response.data.link;
-          setLink(link_);
-          setModalWindow(true);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      setIsFindEmpty(findEmpty);
+      
+      if (!findEmpty){
+        var data = JSON.stringify(Object.fromEntries(form));
+        var config = {
+          method: "post",
+          url: "http://188.225.83.42:8000/api/create_form",
+          headers: {
+            Authorization:
+              "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
+            "Content-Type": "application/json",
+          },
+          data: data,
+        };
+        
+        axios(config)
+          .then(function (response) {
+            var link_ = response.data.link;
+            setLink(link_);
+            setModalWindow(true);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
     }
   }
 
@@ -529,7 +559,7 @@ export default function App() {
           <div className="col-12  d-lg-flex d-none justify-content-lg-center">
             <button
               className="btn btn-outline-secondary m-2"
-              onClick={showData}
+              onClick={sendCreatedForm}
               type="submit"
             >
               Создать
@@ -538,7 +568,7 @@ export default function App() {
           <div className="col-12 text-center d-lg-none d-flex">
             <button
               className="btn btn-outline-secondary mt-2 mb-2 w-100"
-              onClick={showData}
+              onClick={sendCreatedForm}
               type="submit"
             >
               Создать

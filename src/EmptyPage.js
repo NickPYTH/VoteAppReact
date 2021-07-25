@@ -10,7 +10,6 @@ function EmptyPage(props) {
             <div class="col-12 text-center">
             <img src={build} />
             </div>
-            
           </div>
         </div>
     );
