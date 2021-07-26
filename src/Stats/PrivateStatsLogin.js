@@ -12,14 +12,14 @@ function PrivateStatsLogin(props) {
 
   document.title = "VF | Статистика";
 
-  const [ nameInput, setNameInput ] = React.useState("");
-  const [ passwordInput, setPasswordInput] = React.useState("");
-  const [ isRemember, setIsRemember ] = React.useState(false);
-  const [ isLoginFailed, setIsLoginFailed ] = React.useState(false);
-  const [ isLogedIn, setIsLogedIn ] = React.useState(false);
-  const [ formKey_, setFormKey ] = React.useState()
-  const [ loader, setLoader] = React.useState(false);
-  const [ jokeList, setJokeList ] = React.useState([
+  const [nameInput, setNameInput] = React.useState("");
+  const [passwordInput, setPasswordInput] = React.useState("");
+  const [isRemember, setIsRemember] = React.useState(false);
+  const [isLoginFailed, setIsLoginFailed] = React.useState(false);
+  const [isLogedIn, setIsLogedIn] = React.useState(false);
+  const [formKey_, setFormKey] = React.useState();
+  const [loader, setLoader] = React.useState(false);
+  const [jokeList, setJokeList] = React.useState([
     "#pa$$word$",
     "%passw0rd!",
     "@pa$$word|",
@@ -30,9 +30,9 @@ function PrivateStatsLogin(props) {
     "$passw0rd+",
     "^password%",
     "|passw0rd(",
-  ])
+  ]);
 
-  function login(form_name, password){
+  function login(form_name, password) {
     setLoader(true);
     var axios = require("axios");
     var data = JSON.stringify({ form_name: form_name, password: password });
@@ -49,10 +49,9 @@ function PrivateStatsLogin(props) {
 
     axios(config)
       .then(function (response) {
-        if (response.data == "Failed"){
+        if (response.data == "Failed") {
           setIsLoginFailed(true);
-        }
-        else{
+        } else {
           setIsLoginFailed(false);
           setIsLogedIn(true);
           setFormKey(response.data);
@@ -63,13 +62,12 @@ function PrivateStatsLogin(props) {
         setLoader(false);
         console.log(error);
       });
-
   }
 
   if (isLogedIn && formKey_ != undefined) {
     return (
       <div>
-        <Stats formKey={formKey_}/>
+        <Stats formKey={formKey_} />
       </div>
     );
   } else {
@@ -77,62 +75,69 @@ function PrivateStatsLogin(props) {
       <div className="container mt-3 mt-lg-5">
         <div className="row">
           <div className="col-12">
-          <div>
-            <p className="h3 text-center">Просмотр статистики</p>
-            <div className="form-group">
-              <label>Название формы</label>
-              <input 
-                type="email" 
-                className="form-control"
-                placeholder="Введите название вашей формы"
-                onChange={(e)=>{
-                  setNameInput(e.target.value)
-                }}
-                defaultValue={nameInput}/>
-            </div>
-            <div className="form-group">
-              <label>Пароль от формы</label>
-              <input 
-                type="password" 
-                className="form-control" 
-                placeholder="Ваш очень надёжный пароль"
-                onChange={(e)=>{
-                  setPasswordInput(e.target.value)
-                }}
-                defaultValue={passwordInput}
+            <div>
+              <p className="h3 text-center">Просмотр статистики</p>
+              <div className="form-group">
+                <label>Название формы</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Введите название вашей формы"
+                  onChange={(e) => {
+                    setNameInput(e.target.value);
+                  }}
+                  defaultValue={nameInput}
                 />
-                <small className="form-text text-muted">( •_•) {jokeList[randomInteger(0, 9)]} (•_• )</small>
-            </div>
-            <div className="form-check mb-2">
-              <input 
-                type="checkbox"
-                className="form-check-input"
-                onChange={()=>{
-                  setIsRemember(!isRemember);
-                }}
-                defaultValue={isRemember}
+              </div>
+              <div className="form-group">
+                <label>Пароль от формы</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Ваш очень надёжный пароль"
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                  }}
+                  defaultValue={passwordInput}
                 />
-              <label className="form-check-label">Запомнить пароль</label>
+                <small className="form-text text-muted">
+                  ( •_•) {jokeList[randomInteger(0, 9)]} (•_• )
+                </small>
+              </div>
+              <div className="form-check mb-2">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  onChange={() => {
+                    setIsRemember(!isRemember);
+                  }}
+                  defaultValue={isRemember}
+                />
+                <label className="form-check-label">Запомнить пароль</label>
+              </div>
+              <div className="w-100 text-center">
+                {isLoginFailed ? (
+                  <div class="alert alert-primary" role="alert">
+                    Ошибка авторизации
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+                {loader ? (
+                  <Loader />
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      login(nameInput, passwordInput);
+                    }}
+                  >
+                    Войти
+                  </button>
+                )}
+              </div>
             </div>
-            <div className="w-100 text-center">
-              {isLoginFailed ? 
-                <div class="alert alert-primary" role="alert">
-                  Ошибка авторизации
-                </div> :
-                <div></div>
-              }
-              {loader ? (<Loader/>) : 
-                <button 
-                type="submit"  
-                className="btn btn-secondary"
-                onClick={()=>{
-                  login(nameInput, passwordInput);
-                }}
-                >Войти</button>
-              } 
-              
-            </div>
-          </div>
           </div>
         </div>
       </div>

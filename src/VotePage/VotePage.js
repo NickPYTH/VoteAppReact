@@ -7,7 +7,6 @@ import Custom from "./Custom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-
 function VotePage(props) {
   const [loader, setLoader] = React.useState(true);
   const [questionList, setQuestionList] = React.useState();

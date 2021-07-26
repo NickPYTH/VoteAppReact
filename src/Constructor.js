@@ -12,6 +12,7 @@ import {
 } from "@primer/octicons-react";
 import Switch from "@material-ui/core/Switch";
 import axios from "axios";
+import connectionErrorImg from "./connection.jpg";
 
 const AddModal = React.lazy(
   () =>
@@ -38,8 +39,9 @@ export default function App() {
   const [isNoQuestions, setIsNoQuestions] = React.useState(false);
   const [todos, setTodos] = React.useState([]);
   const [countQuestion, setCountQuestion] = React.useState(0);
-  const [link, setLink] = React.useState();
+  const [link, setLink] = React.useState("");
   const [modalWindow, setModalWindow] = React.useState(false);
+  const [isConnectionError, setIsConnectionError] = React.useState(false);
 
   function toggleTodo(
     type,
@@ -253,36 +255,34 @@ export default function App() {
         }
       });
 
-      var questions_list = form.get("questions")
-      questions_list.map((question)=>{
-        if (question.title == "group"){
-          question.data.map((el)=>{
-            if (el.group_name == "" || el.group_name == undefined){
+      var questions_list = form.get("questions");
+      questions_list.map((question) => {
+        if (question.title == "group") {
+          question.data.map((el) => {
+            if (el.group_name == "" || el.group_name == undefined) {
               findEmpty = true;
             }
-            if (Object.values(el).includes("")){
+            if (Object.values(el).includes("")) {
               findEmpty = true;
             }
-          })
-        }
-        else if (question.title == "custom"){
-          if (question.question_title == ""){
+          });
+        } else if (question.title == "custom") {
+          if (question.question_title == "") {
             findEmpty = true;
           }
-          if (Object.values(question.data).includes("")){
+          if (Object.values(question.data).includes("")) {
             findEmpty = true;
           }
-        }
-        else if (question.title == "numbers"){
-          if (question.question_title == ""){
+        } else if (question.title == "numbers") {
+          if (question.question_title == "") {
             findEmpty = true;
           }
         }
-      })
+      });
 
       setIsFindEmpty(findEmpty);
-      
-      if (!findEmpty){
+
+      if (!findEmpty) {
         var data = JSON.stringify(Object.fromEntries(form));
         var config = {
           method: "post",
@@ -294,15 +294,15 @@ export default function App() {
           },
           data: data,
         };
-        
+
         axios(config)
           .then(function (response) {
             var link_ = response.data.link;
             setLink(link_);
             setModalWindow(true);
           })
-          .catch(function (error) {
-            console.log(error);
+          .catch(() => {
+            setIsConnectionError(true);
           });
       }
     }
@@ -555,6 +555,16 @@ export default function App() {
               )}
             </div>
           </div>
+
+          {isConnectionError ? (
+            <div className="col-12 justify-content-center text-center mt-4 mb-4">
+              <div className="h5">Ошибка соединения</div>
+              <img className="w-100" src={connectionErrorImg} />
+              <div className="h5">Попробуйте ещё раз</div>
+            </div>
+          ) : (
+            <div></div>
+          )}
 
           <div className="col-12  d-lg-flex d-none justify-content-lg-center">
             <button

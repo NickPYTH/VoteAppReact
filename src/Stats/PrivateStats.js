@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../Loader";
-import { Bar } from "react-chartjs-2";
+import { Bar, Radar } from "react-chartjs-2";
 import reactDom from "react-dom";
 
 const options = {
@@ -58,18 +58,18 @@ function PrivateStats(props) {
     return (
       <div className="container mt-3">
         <div className="row">
-            <div className="w-100 text-center h3">Статистика</div>
-            {questionList.questions.map((ans) => {
-              var arr = ans.answers;
-              var result = {};
-              for (var i = 0; i < arr.length; ++i) {
-                var a = arr[i];
-                if (result[a] != undefined) ++result[a];
-                else result[a] = 1;
-              }
-              var labels = [];
-              return (
-                <div className="col-12 col-lg-6">
+          <div className="w-100 text-center h3">Статистика</div>
+          {questionList.questions.map((ans) => {
+            var arr = ans.answers;
+            var result = {};
+            for (var i = 0; i < arr.length; ++i) {
+              var a = arr[i];
+              if (result[a] != undefined) ++result[a];
+              else result[a] = 1;
+            }
+            var labels = [];
+            return (
+              <div className="col-12 col-lg-6">
                 <Bar
                   data={{
                     labels: Object.keys(result),
@@ -83,14 +83,29 @@ function PrivateStats(props) {
                   }}
                   options={options}
                 />
-                </div>
-              );
-            })}
-          </div>
-          <div className="w-100 text-center">
-              <a href={fileLink} className="btn btn-outline-secondary">Скачать статитстику</a>
-          </div>
+              </div>
+            );
+          })}
         </div>
+
+        <Radar
+          data={{
+            labels: ["Running", "Swimming", "Eating", "Cycling"],
+            datasets: [
+              {
+                data: [20, 10, 4, 2],
+              },
+            ],
+          }}
+          options={options}
+        />
+
+        <div className="w-100 text-center">
+          <a href={fileLink} className="btn btn-outline-secondary">
+            Скачать статитстику
+          </a>
+        </div>
+      </div>
     );
   }
 }

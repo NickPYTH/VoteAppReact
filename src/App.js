@@ -28,7 +28,7 @@ export default function App() {
     color: "white",
     outline: "none",
   };
-  document.title = 'VoteForms';
+  document.title = "VoteForms";
 
   return (
     <div>
@@ -105,11 +105,10 @@ export default function App() {
 function Home() {
   return (
     <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-4">Опачки!</h1>
-            <p class="lead">Тут будет главная страница :)</p>
-          </div>
-        </div>
-  )
-  ;
+      <div class="container">
+        <h1 class="display-4">Опачки!</h1>
+        <p class="lead">Тут будет главная страница :)</p>
+      </div>
+    </div>
+  );
 }

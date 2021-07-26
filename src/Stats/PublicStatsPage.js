@@ -47,7 +47,6 @@ function PublicStats(props) {
       });
   }, []);
 
-
   if (loader) {
     return (
       <div>
@@ -58,20 +57,18 @@ function PublicStats(props) {
     return (
       <div className="container mt-3">
         <div className="row">
-            <div className="w-100 text-center h3">
-              Текущие результаты
-            </div>
-            {questionList.questions.map((ans) => {
-              var arr = ans.answers;
-              var result = {};
-              for (var i = 0; i < arr.length; ++i) {
-                var a = arr[i];
-                if (result[a] != undefined) ++result[a];
-                else result[a] = 1;
-              }
-              var labels = [];
-              return (
-                <div className="col-12 col-lg-6">
+          <div className="w-100 text-center h3">Текущие результаты</div>
+          {questionList.questions.map((ans) => {
+            var arr = ans.answers;
+            var result = {};
+            for (var i = 0; i < arr.length; ++i) {
+              var a = arr[i];
+              if (result[a] != undefined) ++result[a];
+              else result[a] = 1;
+            }
+            var labels = [];
+            return (
+              <div className="col-12 col-lg-6">
                 <Bar
                   data={{
                     labels: Object.keys(result),
@@ -85,12 +82,11 @@ function PublicStats(props) {
                   }}
                   options={options}
                 />
-                </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-
+      </div>
     );
   }
 }
