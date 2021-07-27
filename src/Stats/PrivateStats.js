@@ -88,17 +88,21 @@ function PrivateStats(props) {
           })}
         </div>
 
-        <Radar
-          data={{
-            labels: ["Running", "Swimming", "Eating", "Cycling"],
-            datasets: [
-              {
-                data: [20, 10, 4, 2],
-              },
-            ],
-          }}
-          options={options}
-        />
+        <div className="row">
+          <div className="col-md-8 offset-md-2 col-12">
+            <Radar
+              data={{
+                labels: ["Тест", "Тест", "Тест", "Тест"],
+                datasets: [
+                  {
+                    data: [20, 10, 4, 2],
+                  },
+                ],
+              }}
+              options={options}
+            />
+          </div>
+        </div>
 
         <div className="w-100 text-center">
           <a href={fileLink} className="btn btn-outline-secondary">

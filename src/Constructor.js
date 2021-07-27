@@ -298,10 +298,14 @@ export default function App() {
         axios(config)
           .then(function (response) {
             var link_ = response.data.link;
-            setLink(link_);
-            setModalWindow(true);
+            if (typeof(link_) == "number"){
+              console.log("cool");
+              setLink(link_);
+              setModalWindow(true);
+            }
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log(error);
             setIsConnectionError(false);
           });
       }
@@ -557,7 +561,11 @@ export default function App() {
           </div>
             <div hidden={isConnectionError} className="col-12 justify-content-center text-center mt-4 mb-4">
               <div className="h5">Ошибка соединения</div>
-              <img className="w-100" src={connectionErrorImg} />
+              <div className="row">
+                <div className="col-12 col-md-6 offset-md-3">
+                  <img className="w-100" src={connectionErrorImg} />
+                </div>
+              </div>
               <div className="h5">Попробуйте ещё раз</div>
             </div>
 
