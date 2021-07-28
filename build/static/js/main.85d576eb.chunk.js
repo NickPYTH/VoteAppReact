@@ -474,7 +474,7 @@
           children: [
             Object(m.jsx)("div", {
               className: "col-12",
-              children: e.todos.map(function (c) {
+              children: e.questionsList.map(function (c) {
                 if (e.group_id == c.group_id) {
                   var a = "".concat(Math.floor(1e3 * Math.random()), "-min");
                   return Object(m.jsx)("div", {
@@ -609,7 +609,7 @@
                       }),
                       Object(m.jsx)(O, {
                         group_id: e.key,
-                        todos: v,
+                        questionsList: v,
                         onCreate: N,
                         onRemove: g,
                       }),
@@ -852,7 +852,7 @@
       };
       var g = function (e) {
         return Object(m.jsx)("div", {
-          children: e.todos.map(function (t, n) {
+          children: e.questionsList.map(function (t, n) {
             return "numbers" === t.title
               ? Object(m.jsx)(
                   p,
@@ -1352,7 +1352,7 @@
                         }),
                       }),
                       Object(m.jsx)(g, {
-                        todos: q,
+                        questionsList: q,
                         onToggle: function (e) {
                           var t =
                               arguments.length > 1 && void 0 !== arguments[1]

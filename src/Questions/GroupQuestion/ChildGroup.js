@@ -22,23 +22,23 @@ function ChildGroup(props) {
     }
   }
 
-  const [todos, setTodos] = React.useState([]);
+  const [questionsList, setQuestionsList] = React.useState([]);
 
   function removeTodo(group_id, child_id) {
     var tmp = [];
     var counter = 0;
-    todos.map((value) => {
+    questionsList.map((value) => {
       if (value.group_id == group_id) {
         counter += 1;
       }
     });
     if (counter > 1) {
-      todos.map((value) => {
+      questionsList.map((value) => {
         if (child_id != value.child_id) {
           tmp.push(value);
         }
       });
-      setTodos(tmp);
+      setQuestionsList(tmp);
       removeGroupChild(tmp, child_id);
     }
   }
@@ -50,18 +50,18 @@ function ChildGroup(props) {
       child_id: Math.random(),
       value: "",
     };
-    setTodos(todos.concat([child]));
+    setQuestionsList(questionsList.concat([child]));
 
     addGroupChild(child);
   }
   function changeTodo(e, group_id, child_id) {
-    var tmp = todos;
+    var tmp = questionsList;
     tmp.map((value) => {
       if (child_id == value.child_id) {
         value.value = e.target.value;
       }
     });
-    setTodos(tmp);
+    setQuestionsList(tmp);
 
     changeGroupChild(tmp);
   }
@@ -92,7 +92,7 @@ function ChildGroup(props) {
 
                 <QuestionList
                   group_id={currentValue.key}
-                  todos={todos}
+                  questionsList={questionsList}
                   onCreate={addTodo}
                   onRemove={removeTodo}
                 />
@@ -100,7 +100,11 @@ function ChildGroup(props) {
 
               <button
                 className="btn btn-outline-danger mt-3 mb-3"
-                onClick={removeGroup.bind(null, currentValue.key, todos)}
+                onClick={removeGroup.bind(
+                  null,
+                  currentValue.key,
+                  questionsList
+                )}
               >
                 Удалить группу
               </button>

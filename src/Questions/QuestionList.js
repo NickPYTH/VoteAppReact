@@ -9,7 +9,7 @@ const styles = {};
 function TodoList(props) {
   return (
     <div>
-      {props.todos.map((todo, index) => {
+      {props.questionsList.map((todo, index) => {
         if (todo.title === "numbers") {
           return (
             <NumbersItem
@@ -44,7 +44,7 @@ function TodoList(props) {
 }
 
 TodoList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  questionsList: PropTypes.arrayOf(PropTypes.object).isRequired,
   onToggle: PropTypes.func.isRequired,
 };
 

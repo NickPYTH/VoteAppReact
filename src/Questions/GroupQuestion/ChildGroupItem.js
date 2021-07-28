@@ -16,7 +16,7 @@ function Questions(props) {
   return (
     <div className="col-12">
       <div className="col-12">
-        {props.todos.map((val) => {
+        {props.questionsList.map((val) => {
           if (props.group_id == val.group_id) {
             var gen_key = `${Math.floor(Math.random() * 1000)}-min`;
             return (
