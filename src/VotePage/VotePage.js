@@ -58,7 +58,7 @@ function VotePage(props) {
       .then(function (response) {
         Cookies.set(props.formKey, true);
         document.location.href =
-          "https://voteforms.ru/results/" + props.formKey;
+          "http://voteforms.ru/results/" + props.formKey;
       })
       .catch(function (error) {
         console.log(error);

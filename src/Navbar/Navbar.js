@@ -90,7 +90,7 @@ function Navbar() {
                   Cтатистика
                 </div>
               ) : (
-                <div>Cтатистика</div>
+                <div>Статистика</div>
               )}
             </Link>
           </li>
