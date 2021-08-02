@@ -44,10 +44,10 @@ function GroupQuestion(props) {
       <div className="card-body">
         <h5 className="card-title">{props.data.question_name}</h5>
         <p className="card-text">{props.data.question_description}</p>
-        <div class="input-group mb-3 justify-content-between">
+        <div className="input-group mb-3 justify-content-between">
           <div className="d-flex mb-2">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">
+            <div className="input-group-prepend">
+              <label className="input-group-text" for="inputGroupSelect01">
                 Cначала тут
               </label>
             </div>
@@ -71,8 +71,8 @@ function GroupQuestion(props) {
             </select>
           </div>
           <div className="d-flex mb-2">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">
+            <div className="input-group-prepend">
+              <label className="input-group-text" for="inputGroupSelect01">
                 А потом тут
               </label>
             </div>
@@ -91,7 +91,7 @@ function GroupQuestion(props) {
           </div>
         </div>
         {props.data.question_comment ? (
-          <div class="form-group">
+          <div className="form-group">
             <label for="exampleFormControlTextarea1">
               Ваш комментарий (необязательно)
             </label>
@@ -99,7 +99,7 @@ function GroupQuestion(props) {
               onChange={(e) => {
                 props.onCommentChange(props.data.question_name, e.target.value);
               }}
-              class="form-control"
+              className="form-control"
               rows="3"
             ></textarea>
           </div>

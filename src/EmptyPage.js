@@ -6,8 +6,8 @@ function EmptyPage(props) {
     <div className="container mt-3">
       <div className="row">
         <div className="w-100 text-center h3 mt-3">Страница в разработке</div>
-        <div class="col-12 text-center">
-          <img src={build} />
+        <div className="col-12 text-center">
+          <img className="w-100" src={build} />
         </div>
       </div>
     </div>

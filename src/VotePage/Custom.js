@@ -10,14 +10,14 @@ function CustomQuestion(props) {
       <div className="card-body">
         <h5 className="card-title">{props.data.question_name}</h5>
         <p className="card-text">{props.data.question_description}</p>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <label className="input-group-text" for="inputGroupSelect01">
               Выберите ответ
             </label>
           </div>
           <select
-            class="custom-select"
+            className="custom-select"
             id="inputGroupSelect01"
             onChange={(e) => {
               setAnswer(e.target.value);
@@ -30,7 +30,7 @@ function CustomQuestion(props) {
           </select>
         </div>
         {props.data.question_comment ? (
-          <div class="form-group">
+          <div className="form-group">
             <label for="exampleFormControlTextarea1">
               Ваш комментарий (необязательно)
             </label>
@@ -38,7 +38,7 @@ function CustomQuestion(props) {
               onChange={(e) => {
                 props.onCommentChange(props.data.question_name, e.target.value);
               }}
-              class="form-control"
+              className="form-control"
               rows="3"
             ></textarea>
           </div>

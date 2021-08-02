@@ -117,7 +117,7 @@ function PrivateStatsLogin(props) {
               </div>
               <div className="w-100 text-center">
                 {isLoginFailed ? (
-                  <div class="alert alert-primary" role="alert">
+                  <div className="alert alert-primary" role="alert">
                     Ошибка авторизации
                   </div>
                 ) : (

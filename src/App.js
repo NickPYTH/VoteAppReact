@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -18,6 +17,7 @@ import PublicStatsPage from "./Stats/PublicStatsPage";
 import PrivateStatsLogin from "./Stats/PrivateStatsLogin";
 import "./App.css";
 import EmptyPage from "./EmptyPage";
+import Navbar from "./Navbar/Navbar";
 
 export default function App() {
   let navLinkStyles = {
@@ -33,46 +33,8 @@ export default function App() {
   return (
     <div>
       <Router>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Brand>
-            <Link style={navbarTextStyles} to="/">
-              Vote Forms
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto"></Nav>
-            <Nav>
-              <Nav.Link>
-                <Link
-                  style={navLinkStyles}
-                  to="/constructor"
-                  className="nav-link active h4"
-                >
-                  Конструктор
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link
-                  style={navLinkStyles}
-                  to="/edit"
-                  className="nav-link active h4"
-                >
-                  Редакция
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link
-                  style={navLinkStyles}
-                  to="/stats"
-                  className="nav-link active h4"
-                >
-                  Статистика
-                </Link>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <Navbar />
+
         <Switch>
           <Route
             exact
@@ -104,10 +66,10 @@ export default function App() {
 
 function Home() {
   return (
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">Опачки!</h1>
-        <p class="lead">Тут будет главная страница :)</p>
+    <div className="jumbotron jumbotron-fluid">
+      <div className="container">
+        <h1 className="display-4">Опачки!</h1>
+        <p className="lead">Тут будет главная страница :)</p>
       </div>
     </div>
   );
