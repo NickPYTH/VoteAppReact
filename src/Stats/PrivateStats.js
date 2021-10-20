@@ -26,7 +26,7 @@ function PrivateStats(props) {
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://188.225.83.42:8000/api/get_form_private_results",
+      url: "http://176.57.217.201:8000/api/get_form_private_results",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",

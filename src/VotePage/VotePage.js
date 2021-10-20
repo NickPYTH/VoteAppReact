@@ -45,7 +45,7 @@ function VotePage(props) {
     var axios = require("axios");
     var config = {
       method: "post",
-      url: "http://188.225.83.42:8000/api/send_form",
+      url: "http://176.57.217.201:8000/api/send_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
@@ -70,7 +70,7 @@ function VotePage(props) {
     var data = JSON.stringify({ form_key: props.formKey });
     var config = {
       method: "post",
-      url: "http://188.225.83.42:8000/api/get_form",
+      url: "http://176.57.217.201:8000/api/get_form",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",

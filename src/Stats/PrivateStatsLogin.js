@@ -38,7 +38,7 @@ function PrivateStatsLogin(props) {
     var data = JSON.stringify({ form_name: form_name, password: password });
     var config = {
       method: "post",
-      url: "http://188.225.83.42:8000/api/login_private_stats",
+      url: "http://176.57.217.201:8000/api/login_private_stats",
       headers: {
         Authorization:
           "Basic PEJhc2ljIEF1dGggVXNlcm5hbWU+OjxCYXNpYyBBdXRoIFBhc3N3b3JkPg==",
