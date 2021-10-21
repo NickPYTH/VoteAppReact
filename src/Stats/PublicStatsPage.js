@@ -22,9 +22,9 @@ function PublicStats(props) {
   document.title = "VF | Результаты";
 
   useEffect(() => {
-    var axios = require("axios");
-    var data = JSON.stringify({ form_key: props.formKey });
-    var config = {
+    let axios = require("axios");
+    let data = JSON.stringify({ form_key: props.formKey });
+    let config = {
       method: "post",
       url: "http://176.57.217.201:8000/api/get_form_public_results",
       headers: {
@@ -37,7 +37,7 @@ function PublicStats(props) {
 
     axios(config)
       .then(function (response) {
-        var questions = response.data;
+        let questions = response.data;
         setQuestionList(questions);
         setLoader(false);
       })
@@ -59,14 +59,14 @@ function PublicStats(props) {
         <div className="row">
           <div className="w-100 text-center h3">Текущие результаты</div>
           {questionList.questions.map((ans) => {
-            var arr = ans.answers;
-            var result = {};
-            for (var i = 0; i < arr.length; ++i) {
-              var a = arr[i];
-              if (result[a] != undefined) ++result[a];
+            let arr = ans.answers;
+            let result = {};
+            for (let i = 0; i < arr.length; ++i) {
+              let a = arr[i];
+              if (result[a] !== undefined) ++result[a];
               else result[a] = 1;
             }
-            var labels = [];
+            let labels = [];
             return (
               <div className="col-12 col-lg-6">
                 <Bar

@@ -4,7 +4,6 @@ import Context from "../../context";
 import ChildGroup from "./ChildGroup";
 import Switch from "@material-ui/core/Switch";
 
-const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
   const [isComment, setIsComment] = useState(false);
@@ -13,7 +12,6 @@ function TodoItem({ todo, index, onChange }) {
     changeGroupChild,
     removeGroupChild,
     addGroupChild,
-    removeGroupInGroupQuestion,
     switchCommentInGroupQuestion,
   } = useContext(Context);
   const [groups, setGroups] = React.useState([]);
@@ -22,62 +20,13 @@ function TodoItem({ todo, index, onChange }) {
   const [questionTitle, setQuestionTitle] = useState("");
   const [questionDescription, setQuestionDescription] = useState("");
 
-  function removeGroup(key, childArray) {
-    var tmp = [];
-    var child_tmp = [];
-    childArray.map((group) => {
-      if (group.group_id != key) {
-        child_tmp.push(group);
-      }
-    });
-    groups.map((group) => {
-      if (group.key != key) {
-        tmp.push(group);
-      }
-    });
-
-    setGroups(tmp);
-    removeGroupInGroupQuestion(key);
-    //changeGroupChild(child_tmp);
-  }
-
-  function addChild(group_key, value) {
-    var tmp_groups = groups;
-    if (typeof value == "object") {
-      if (value.get(group_key) !== "") {
-        tmp_groups.map((group) => {
-          if (group.key === group_key) {
-            group.childs.push({
-              key: Math.random(),
-              value: value,
-              group_key: group_key,
-            });
-          }
-        });
-        setGroups(tmp_groups);
-        onChange("groups", index, tmp_groups, null);
-      }
-    }
-  }
-
-  function changeTitle(value, group_key) {
-    var tmp_groups = groups;
-    tmp_groups.map((group) => {
-      if (group.key === group_key) {
-        group.title = value.value;
-      }
-    });
-    setGroups(tmp_groups);
-    onChange("groups", index, tmp_groups, null);
-  }
-
   function removeChild(group_key, child_key) {
-    var tmp_groups = groups;
+    let tmp_groups = groups;
     tmp_groups.map((group) => {
       if (group.key === group_key) {
-        var tmp_childs = [];
+        let tmp_childs = [];
         group.childs.map((child) => {
-          if (child.key != child_key) {
+          if (child.key !== child_key) {
             tmp_childs.push(child);
           }
         });
@@ -91,10 +40,7 @@ function TodoItem({ todo, index, onChange }) {
   return (
     <Context.Provider
       value={{
-        removeGroup,
-        addChild,
         removeChild,
-        changeTitle,
         onChange,
         addGroupChild,
         changeGroupChild,
@@ -107,7 +53,7 @@ function TodoItem({ todo, index, onChange }) {
             <div className="mb-2 d-flex justify-content-between">
               <span className="badge badge-primary">Групповые ответы</span>
               <span className="badge badge-primary d-none d-lg-flex">
-                Номер воdпроса: {index + 1}
+                Номер вопроса: {index + 1}
               </span>
               <span
                 style={{ cursor: "pointer" }}
@@ -138,7 +84,7 @@ function TodoItem({ todo, index, onChange }) {
                   changeQuestionTitle(index, e.target.value);
                 }}
                 defaultValue={questionTitle}
-              ></input>
+              />
             </div>
             <div className="input-group mb-3">
               <div className="input-group-prepend d-none d-lg-flex">
@@ -161,7 +107,7 @@ function TodoItem({ todo, index, onChange }) {
                   changeQuestionDescription(index, e.target.value);
                 }}
                 defaultValue={questionDescription}
-              ></input>
+              />
             </div>
             <ChildGroup groups={groups} index={index + 1} />
             <div className="d-flex justify-content-lg-start justify-content-center">
@@ -192,8 +138,8 @@ function TodoItem({ todo, index, onChange }) {
                 name="checkedB"
                 color="primary"
                 onChange={() => {
-                  setIsComment(isComment ? false : true);
-                  switchCommentInGroupQuestion(index, isComment ? false : true);
+                  setIsComment(!isComment);
+                  switchCommentInGroupQuestion(index, !isComment);
                 }}
               />
             </div>

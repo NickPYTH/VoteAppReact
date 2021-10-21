@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import Context from "../../context";
 
 function Questions(props) {
@@ -17,8 +16,8 @@ function Questions(props) {
     <div className="col-12">
       <div className="col-12">
         {props.questionsList.map((val) => {
-          if (props.group_id == val.group_id) {
-            var gen_key = `${Math.floor(Math.random() * 1000)}-min`;
+          if (props.group_id === val.group_id) {
+            let gen_key = `${Math.floor(Math.random() * 1000)}-min`;
             return (
               <div>
                 <div className="input-group mb-2">

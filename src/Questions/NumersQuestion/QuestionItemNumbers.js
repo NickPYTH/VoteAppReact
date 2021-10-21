@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import Context from "../../context";
 import Switch from "@material-ui/core/Switch";
 
-const styles = {};
-
 function TodoItem({ todo, index }) {
   const { removeTodo } = useContext(Context);
   const { changeQuestionTitle } = useContext(Context);
@@ -51,7 +49,7 @@ function TodoItem({ todo, index }) {
               defaultValue={questionTitle}
               type="text"
               className="form-control"
-            ></input>
+            />
           </div>
           <div className="input-group mb-3 ">
             <div className="input-group-prepend d-none d-lg-flex">
@@ -71,7 +69,7 @@ function TodoItem({ todo, index }) {
                 changeQuestionDescription(index, e.target.value);
               }}
               defaultValue={questionDescription}
-            ></input>
+            />
           </div>
           <div className="input-group justify-content-lg-start justify-content-center">
             <div className="input-group-prepend d-none d-lg-flex">
@@ -110,8 +108,8 @@ function TodoItem({ todo, index }) {
                 name="checkedB"
                 color="primary"
                 onChange={() => {
-                  setIsComment(isComment ? false : true);
-                  changeQuestionComment(index, isComment ? false : true);
+                  setIsComment(!isComment);
+                  changeQuestionComment(index, !isComment);
                 }}
               />
             </div>

@@ -1,10 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
-import Context from "../context";
+import React, { useEffect } from "react";
 import Loader from "../Loader";
 import Number from "./Numbers";
 import Group from "./Group";
 import Custom from "./Custom";
-import axios from "axios";
 import Cookies from "js-cookie";
 
 function VotePage(props) {
@@ -15,8 +13,8 @@ function VotePage(props) {
   const [isEnd, setIsEnd] = React.useState(false);
 
   function changeAnswerList(question, value) {
-    var tmp = answers;
-    if (tmp.get(question) == undefined) {
+    let tmp = answers;
+    if (tmp.get(question) === undefined) {
       tmp.set(question, value);
     } else {
       tmp.delete(question);
@@ -26,8 +24,8 @@ function VotePage(props) {
   }
 
   function changeCommentsList(question, value) {
-    var tmp = comments;
-    if (tmp.get(question) == undefined) {
+    let tmp = comments;
+    if (tmp.get(question) === undefined) {
       tmp.set(question, value);
     } else {
       tmp.delete(question);
@@ -37,13 +35,13 @@ function VotePage(props) {
   }
 
   function sendForm() {
-    var toSend = {
+    let toSend = {
       form_key: props.formKey,
       answers: Object.fromEntries(answers),
       comments: Object.fromEntries(comments),
     };
-    var axios = require("axios");
-    var config = {
+    let axios = require("axios");
+    let config = {
       method: "post",
       url: "http://176.57.217.201:8000/api/send_form",
       headers: {
@@ -66,9 +64,9 @@ function VotePage(props) {
   }
 
   useEffect(() => {
-    var axios = require("axios");
-    var data = JSON.stringify({ form_key: props.formKey });
-    var config = {
+    let axios = require("axios");
+    let data = JSON.stringify({ form_key: props.formKey });
+    let config = {
       method: "post",
       url: "http://176.57.217.201:8000/api/get_form",
       headers: {
@@ -81,14 +79,14 @@ function VotePage(props) {
 
     axios(config)
       .then(function (response) {
-        var questions = JSON.parse(response.data);
+        let questions = JSON.parse(response.data);
         setQuestionList(questions);
         setLoader(false);
 
-        var end_date_ = questions[0].date.slice(0, 10);
-        var current_date_ = new Date().toISOString().slice(0, 10);
-        var end_date = new Date(end_date_);
-        var current_date = new Date(current_date_);
+        let end_date_ = questions[0].date.slice(0, 10);
+        let current_date_ = new Date().toISOString().slice(0, 10);
+        let end_date = new Date(end_date_);
+        let current_date = new Date(current_date_);
         if (end_date - current_date < 0) {
           setIsEnd(true);
         }
@@ -114,7 +112,7 @@ function VotePage(props) {
               {questionList[0].form_name}
             </div>
             {questionList.map((question) => {
-              if (question.question_type == "numbers") {
+              if (question.question_type === "numbers") {
                 return (
                   <Number
                     data={question}
@@ -122,7 +120,7 @@ function VotePage(props) {
                     onCommentChange={changeCommentsList}
                   />
                 );
-              } else if (question.question_type == "custom") {
+              } else if (question.question_type === "custom") {
                 return (
                   <Custom
                     data={question}
@@ -130,7 +128,7 @@ function VotePage(props) {
                     onCommentChange={changeCommentsList}
                   />
                 );
-              } else if (question.question_type == "group") {
+              } else if (question.question_type === "group") {
                 return (
                   <Group
                     data={question}
@@ -141,13 +139,13 @@ function VotePage(props) {
               }
             })}
             <div className="w-100 text-center mb-3">
-              {isEnd == true ? (
+              {isEnd === true ? (
                 <button className="btn btn-secondary" disabled={true}>
                   Голосование окончено
                 </button>
               ) : (
                 <div>
-                  {Cookies.get(props.formKey) == undefined ? (
+                  {Cookies.get(props.formKey) === undefined ? (
                     <button className="btn btn-secondary" onClick={sendForm}>
                       Отправить
                     </button>

@@ -15,7 +15,6 @@ function useInputValue(defaultValue = "") {
 }
 
 function AddTodo({ onCreate }) {
-  const input = useInputValue("");
 
   function NumbersHandler(event) {
     event.preventDefault();

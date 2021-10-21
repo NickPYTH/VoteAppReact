@@ -1,8 +1,6 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import Context from "../../context";
 
-const styles = {};
 
 function SubCustom(props) {
   const { removeSubs } = useContext(Context);
@@ -26,7 +24,6 @@ function SubCustom(props) {
               </span>
             </div>
             <div
-              name={currentValue.key}
               style={{ overflowX: "" }}
               className="form-control"
             >

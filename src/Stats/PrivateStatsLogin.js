@@ -1,7 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import Loader from "./LogInLoader";
-import { Bar } from "react-chartjs-2";
 import Stats from "./PrivateStats";
 
 function PrivateStatsLogin(props) {
@@ -34,9 +32,9 @@ function PrivateStatsLogin(props) {
 
   function login(form_name, password) {
     setLoader(true);
-    var axios = require("axios");
-    var data = JSON.stringify({ form_name: form_name, password: password });
-    var config = {
+    let axios = require("axios");
+    let data = JSON.stringify({ form_name: form_name, password: password });
+    let config = {
       method: "post",
       url: "http://176.57.217.201:8000/api/login_private_stats",
       headers: {
@@ -49,7 +47,7 @@ function PrivateStatsLogin(props) {
 
     axios(config)
       .then(function (response) {
-        if (response.data == "Failed") {
+        if (response.data === "Failed") {
           setIsLoginFailed(true);
         } else {
           setIsLoginFailed(false);
@@ -64,7 +62,7 @@ function PrivateStatsLogin(props) {
       });
   }
 
-  if (isLogedIn && formKey_ != undefined) {
+  if (isLogedIn && formKey_ !== undefined) {
     return (
       <div>
         <Stats formKey={formKey_} />
@@ -121,7 +119,7 @@ function PrivateStatsLogin(props) {
                     Ошибка авторизации
                   </div>
                 ) : (
-                  <div></div>
+                  <div/>
                 )}
                 {loader ? (
                   <Loader />

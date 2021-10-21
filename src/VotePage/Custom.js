@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 
 function CustomQuestion(props) {
   const [answer, setAnswer] = React.useState();
-  if (answer == undefined) {
+  if (answer === undefined) {
     props.onChange(props.data.question_name, props.data.answers[0].answer);
   }
   return (
@@ -12,7 +12,7 @@ function CustomQuestion(props) {
         <p className="card-text">{props.data.question_description}</p>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <label className="input-group-text" for="inputGroupSelect01">
+            <label className="input-group-text">
               Выберите ответ
             </label>
           </div>
@@ -31,7 +31,7 @@ function CustomQuestion(props) {
         </div>
         {props.data.question_comment ? (
           <div className="form-group">
-            <label for="exampleFormControlTextarea1">
+            <label>
               Ваш комментарий (необязательно)
             </label>
             <textarea
@@ -40,10 +40,10 @@ function CustomQuestion(props) {
               }}
               className="form-control"
               rows="3"
-            ></textarea>
+            />
           </div>
         ) : (
-          <div></div>
+          <div/>
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import QuestionList from "./Questions/QuestionList";
 import AddQuestion from "./Questions/AddQuestion";
 import Loader from "./Loader";
@@ -11,7 +11,6 @@ import {
   SmileyIcon,
 } from "@primer/octicons-react";
 import Switch from "@material-ui/core/Switch";
-import axios from "axios";
 import connectionErrorImg from "./connection.jpg";
 
 const AddModal = React.lazy(
@@ -50,9 +49,9 @@ export default function App() {
     customRemove = undefined
   ) {
     if (type === "numbers") {
-      var tmp = questionsList;
+      let tmp = questionsList;
       tmp.map((val) => {
-        if (val.questionNumber == id) {
+        if (val.questionNumber === id) {
           val.data = [1, 2, 3, 4, 5];
           val.data.isComment = value;
         }
@@ -60,9 +59,9 @@ export default function App() {
       setQuestionsList(tmp);
     } else if (type === "custom") {
       if (customRemove === undefined) {
-        var tmp = questionsList;
+        let tmp = questionsList;
         tmp.map((val) => {
-          if (val.questionNumber == id + 1) {
+          if (val.questionNumber === id + 1) {
             if (value === true || value === false) {
               val.isComment = value;
             } else {
@@ -72,10 +71,10 @@ export default function App() {
         });
         setQuestionsList(tmp);
       } else {
-        var tmp = questionsList;
+        let tmp = questionsList;
         tmp.map((val) => {
-          if (val.questionNumber == id + 1) {
-            val.data = val.data.filter((word) => word != value);
+          if (val.questionNumber === id + 1) {
+            val.data = val.data.filter((word) => word !== value);
           }
         });
         setQuestionsList(tmp);
@@ -83,39 +82,9 @@ export default function App() {
     }
   }
 
-  function changeQuestionTitle(id, title_value) {
-    var tmp = questionsList;
-    tmp.map((question) => {
-      if (question.questionNumber == id + 1) {
-        question.question_title = title_value;
-      }
-    });
-    setQuestionsList(tmp);
-  }
-
-  function changeQuestionDescription(id, description_value) {
-    var tmp = questionsList;
-    tmp.map((question) => {
-      if (question.questionNumber == id + 1) {
-        question.question_description = description_value;
-      }
-    });
-    setQuestionsList(tmp);
-  }
-
-  function changeQuestionComment(id, status) {
-    var tmp = questionsList;
-    tmp.map((question) => {
-      if (question.questionNumber == id + 1) {
-        question.isComment = status;
-      }
-    });
-    setQuestionsList(tmp);
-  }
-
   function removeTodo(id) {
     setCountQuestion(countQuestion - 1);
-    var count = 1;
+    let count = 1;
     setQuestionsList(questionsList.filter((todo) => todo.id !== id));
     questionsList.map((el) => {
       if (el.id !== id) {
@@ -126,7 +95,7 @@ export default function App() {
   }
 
   function addTodo(title) {
-    var tmp = countQuestion;
+    let tmp = countQuestion;
     setCountQuestion(countQuestion + 1);
     setQuestionsList(
       questionsList.concat([
@@ -144,12 +113,12 @@ export default function App() {
   }
 
   function removeGroupInGroupQuestion(group_id) {
-    var questionsList_tmp = questionsList;
-    var tmp = [];
+    let questionsList_tmp = questionsList;
+    let tmp = [];
     questionsList_tmp.map((question) => {
-      if (question.title == "group") {
+      if (question.title === "group") {
         question.data.map((answer) => {
-          if (answer.group_id != group_id) {
+          if (answer.group_id !== group_id) {
             tmp.push(answer);
           }
         });
@@ -160,9 +129,9 @@ export default function App() {
   }
 
   function switchCommentInGroupQuestion(index, value) {
-    var questionsList_tmp = questionsList;
+    let questionsList_tmp = questionsList;
     questionsList_tmp.map((question) => {
-      if (question.title == "group" && question.questionNumber == index + 1) {
+      if (question.title === "group" && question.questionNumber === index + 1) {
         question.isComment = value;
       }
     });
@@ -170,7 +139,7 @@ export default function App() {
   }
 
   function addGroupChild(child) {
-    var tmp = questionsList;
+    let tmp = questionsList;
     tmp.map((questionsList_item) => {
       if (questionsList_item.title === "group") {
         questionsList_item.data.push(child);
@@ -180,11 +149,11 @@ export default function App() {
   }
 
   function removeGroupChild(childs, child_id) {
-    var tmp = questionsList;
-    var new_items = [];
+    let tmp = questionsList;
+    let new_items = [];
     tmp.map((questionsList_item) => {
       questionsList_item.data.map((data) => {
-        if (data.child_id != child_id) {
+        if (data.child_id !== child_id) {
           new_items.push(data);
         }
       });
@@ -195,12 +164,12 @@ export default function App() {
   }
 
   function changeGroupChild(childs) {
-    var tmp = questionsList;
+    let tmp = questionsList;
     tmp.map((questionsList_item) => {
       if (questionsList_item.title === "group") {
         questionsList_item.data.map((data) => {
           childs.map((child) => {
-            if (data.key == child.group_id) {
+            if (data.key === child.group_id) {
               if (!data.childs.has(child.child_id)) {
                 data.childs.set(child.child_id, child.value);
               } else {
@@ -216,9 +185,9 @@ export default function App() {
   }
 
   function sendCreatedForm() {
-    var findEmpty = false;
-    var axios = require("axios");
-    var form = new Map();
+    let findEmpty = false;
+    let axios = require("axios");
+    let form = new Map();
     form.set("form_name", formInfo.name);
     form.set("form_description", formInfo.description);
     form.set("questions", questionsList);
@@ -226,7 +195,7 @@ export default function App() {
       form.set("form_date", "inf");
       setIsInfinity(true);
     } else {
-      if (formInfo.date.trim() == "") {
+      if (formInfo.date.trim() === "") {
         form.set("form_date", "inf");
         setIsInfinity(true);
       } else {
@@ -236,37 +205,37 @@ export default function App() {
 
     formInfo.isTryToSend = true;
 
-    if (form.get("questions").length == 0) {
+    if (form.get("questions").length === 0) {
       setIsNoQuestions(true);
     } else {
       setIsNoQuestions(false);
 
       form.get("questions").map((question) => {
-        if (question.question_title.trim() == "") {
+        if (question.question_title.trim() === "") {
           findEmpty = true;
         }
       });
 
-      var questions_list = form.get("questions");
+      let questions_list = form.get("questions");
       questions_list.map((question) => {
-        if (question.title == "group") {
+        if (question.title === "group") {
           question.data.map((el) => {
-            if (el.group_name == "" || el.group_name == undefined) {
+            if (el.group_name === "" || el.group_name === undefined) {
               findEmpty = true;
             }
             if (Object.values(el).includes("")) {
               findEmpty = true;
             }
           });
-        } else if (question.title == "custom") {
-          if (question.question_title == "") {
+        } else if (question.title === "custom") {
+          if (question.question_title === "") {
             findEmpty = true;
           }
           if (Object.values(question.data).includes("")) {
             findEmpty = true;
           }
-        } else if (question.title == "numbers") {
-          if (question.question_title == "") {
+        } else if (question.title === "numbers") {
+          if (question.question_title === "") {
             findEmpty = true;
           }
         }
@@ -275,8 +244,8 @@ export default function App() {
       setIsFindEmpty(findEmpty);
       console.log(form);
       if (!findEmpty) {
-        var data = JSON.stringify(Object.fromEntries(form));
-        var config = {
+        let data = JSON.stringify(Object.fromEntries(form));
+        let config = {
           method: "post",
           url: "http://176.57.217.201:8000/api/create_form",
           headers: {
@@ -289,8 +258,8 @@ export default function App() {
 
         axios(config)
           .then(function (response) {
-            var link_ = response.data.link;
-            if (typeof link_ == "number") {
+            let link_ = response.data.link;
+            if (typeof link_ === "number") {
               setLink(link_);
               setModalWindow(true);
             } else {
@@ -314,9 +283,6 @@ export default function App() {
         addGroupChild,
         changeGroupChild,
         removeGroupChild,
-        changeQuestionTitle,
-        changeQuestionDescription,
-        changeQuestionComment,
       }}
     >
       {modalWindow ? (
@@ -330,7 +296,7 @@ export default function App() {
           />
         </React.Suspense>
       ) : (
-        <div></div>
+        <div/>
       )}
 
       <div
@@ -398,7 +364,7 @@ export default function App() {
                       });
                     }}
                     defaultValue={formInfo.description}
-                  ></input>
+                  />
                 </div>
               </div>
             </div>
@@ -424,7 +390,7 @@ export default function App() {
                           name: formInfo.name,
                           description: formInfo.description,
                           date: e.target.value,
-                          isInf: formInfo.isInf ? false : true,
+                          isInf: !formInfo.isInf,
                           isTryToSend: formInfo.isTryToSend,
                         });
                       }}
@@ -445,7 +411,7 @@ export default function App() {
                             name: formInfo.name,
                             description: formInfo.description,
                             date: e.target.value,
-                            isInf: formInfo.isInf ? false : true,
+                            isInf: !formInfo.isInf,
                             isTryToSend: formInfo.isTryToSend,
                           });
                         }}
@@ -485,7 +451,7 @@ export default function App() {
             <AddQuestion onCreate={addTodo} />
 
             <div className="row">
-              {formInfo.name.trim() == "" && isInfinity && (
+              {formInfo.name.trim() === "" && isInfinity && (
                 <div className="col-12 mt-2 justify-content-center text-center">
                   <div className="alert alert-info" role="alert">
                     <NoteIcon size={20} /> Заполните имя формы
@@ -493,7 +459,7 @@ export default function App() {
                 </div>
               )}
 
-              {formInfo.name.trim() != "" &&
+              {formInfo.name.trim() !== "" &&
                 formInfo.name.trim().length < 2 &&
                 isInfinity && (
                   <div className="col-12 mt-2 justify-content-center text-center">
@@ -504,7 +470,7 @@ export default function App() {
                   </div>
                 )}
 
-              {formInfo.description.trim() == "" && isInfinity && (
+              {formInfo.description.trim() === "" && isInfinity && (
                 <div className="col-12 justify-content-center text-center">
                   <div className="alert alert-info" role="alert">
                     <KeyIcon size={20} /> Защитите доступ к результатам формы
@@ -512,7 +478,7 @@ export default function App() {
                 </div>
               )}
 
-              {formInfo.description.trim() != "" &&
+              {formInfo.description.trim() !== "" &&
                 formInfo.description.trim().length < 3 &&
                 isInfinity && (
                   <div className="col-12 mt-2 justify-content-center text-center">
@@ -541,7 +507,7 @@ export default function App() {
                 </div>
               )}
 
-              {formInfo.date.trim() == "" && isInfinity && (
+              {formInfo.date.trim() === "" && isInfinity && (
                 <div className="col-12 justify-content-center text-center">
                   <div className="alert alert-info" role="alert">
                     {isInfinity}
@@ -559,7 +525,7 @@ export default function App() {
             <div className="h5">Ошибка соединения</div>
             <div className="row">
               <div className="col-12 col-md-6 offset-md-3">
-                <img className="w-100" src={connectionErrorImg} />
+                <img className="w-100" src={connectionErrorImg} alt='Connection Error'/>
               </div>
             </div>
             <div className="h5">Попробуйте ещё раз</div>

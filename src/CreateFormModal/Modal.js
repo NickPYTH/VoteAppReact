@@ -14,12 +14,12 @@ const modal = {
 
 function Modal(props) {
   if (props.visible) {
-    var form_name = props.formName;
-    var form_password = props.formPass;
-    var link = "http://voteforms.ru/" + props.formLink;
-    var backColor = "#FFFFFF";
-    var fontColor = "#000000";
-    var level = "L"; // ('L' 'M' 'Q' 'H')
+    let form_name = props.formName;
+    let form_password = props.formPass;
+    let link = "http://voteforms.ru/" + props.formLink;
+    let backColor = "#FFFFFF";
+    let fontColor = "#000000";
+    let level = "L"; // ('L' 'M' 'Q' 'H')
     return (
       <div style={modal}>
         <div className="modal-dialog">

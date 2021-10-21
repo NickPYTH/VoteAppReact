@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
-import PropTypes, { func } from "prop-types";
+import PropTypes  from "prop-types";
 import Context from "../../context";
 import SubCustom from "./SubCustom";
 import Switch from "@material-ui/core/Switch";
-
-const styles = {};
 
 function TodoItem({ todo, index, onChange }) {
   const [isComment, setIsComment] = useState(false);
@@ -17,9 +15,9 @@ function TodoItem({ todo, index, onChange }) {
   const [questionDescription, setQuestionDescription] = useState("");
 
   function removeSubs(key, id, value) {
-    var tmp = [];
+    let tmp = [];
     customAnswers.map((item) => {
-      if (item.key != key) {
+      if (item.key !== key) {
         tmp = tmp.concat({
           ques_index: item.ques_index,
           key: item.key,
@@ -33,7 +31,7 @@ function TodoItem({ todo, index, onChange }) {
 
   function addValue(key, val) {
     customAnswers.map((item) => {
-      if (item.key == key) {
+      if (item.key === key) {
         item.value = val;
       }
     });
@@ -45,7 +43,7 @@ function TodoItem({ todo, index, onChange }) {
 
   function getCurrentValue(key) {
     customAnswers.map((item) => {
-      if (item.key == key) {
+      if (item.key === key) {
         return item.value;
       }
     });
@@ -92,7 +90,7 @@ function TodoItem({ todo, index, onChange }) {
                   changeQuestionTitle(index, e.target.value);
                 }}
                 defaultValue={questionTitle}
-              ></input>
+              />
             </div>
             <div className="input-group mb-3">
               <div className="input-group-prepend d-none d-lg-flex">
@@ -115,7 +113,7 @@ function TodoItem({ todo, index, onChange }) {
                   changeQuestionDescription(index, e.target.value);
                 }}
                 defaultValue={questionDescription}
-              ></input>
+              />
             </div>
             <SubCustom index={index} answers={customAnswers} />
 
@@ -127,7 +125,7 @@ function TodoItem({ todo, index, onChange }) {
                   className="form-control"
                   value={customAnswersEnter}
                   onChange={(e) => setCustomAnswersEnter(e.target.value)}
-                ></input>
+                />
               </div>
               <div className="col-12 col-lg-3">
                 <button
@@ -158,8 +156,8 @@ function TodoItem({ todo, index, onChange }) {
                   name="checkedB"
                   color="primary"
                   onChange={() => {
-                    setIsComment(isComment ? false : true);
-                    addAnsToData(index, isComment ? false : true);
+                    setIsComment(!isComment);
+                    addAnsToData(index, !isComment);
                   }}
                 />
               </div>

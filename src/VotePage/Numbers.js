@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 
 function NumberQuestion(props) {
   const [answer, setAnswer] = React.useState();
-  if (answer == undefined) {
+  if (answer === undefined) {
     props.onChange(props.data.question_name, "5");
   }
 
@@ -13,7 +13,7 @@ function NumberQuestion(props) {
         <p className="card-text">{props.data.question_description}</p>
         <div className="input-group mb-3">
           <div className="input-group-prepend">
-            <label className="input-group-text" for="inputGroupSelect01">
+            <label className="input-group-text">
               Выберите оценку
             </label>
           </div>
@@ -36,7 +36,7 @@ function NumberQuestion(props) {
         </div>
         {props.data.question_comment ? (
           <div className="form-group">
-            <label for="exampleFormControlTextarea1">
+            <label>
               Ваш комментарий (необязательно)
             </label>
             <textarea
@@ -45,10 +45,10 @@ function NumberQuestion(props) {
               }}
               className="form-control"
               rows="3"
-            ></textarea>
+            />
           </div>
         ) : (
-          <div></div>
+          <div/>
         )}
       </div>
     </div>

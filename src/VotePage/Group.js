@@ -1,19 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 
 function GroupQuestion(props) {
   const [answer, setAnswer] = React.useState();
 
-  var groups_list = [];
-  var items_list = [];
+  let groups_list = [];
+  let items_list = [];
 
   props.data.answers.map((answer) => {
     if (
       !groups_list.find((i) => {
-        if (i.value == answer.group) {
-          return true;
-        } else {
-          return false;
-        }
+        return i.value === answer.group;
       })
     ) {
       groups_list.push({
@@ -26,14 +22,14 @@ function GroupQuestion(props) {
   props.data.answers.map((answer) => {
     items_list.push(answer);
   });
-  var tmp = [];
+  let tmp = [];
   items_list.map((item) => {
-    if (item.group == items_list[0].group) {
+    if (item.group === items_list[0].group) {
       tmp.push(item.answer);
     }
   });
 
-  if (answer == undefined) {
+  if (answer === undefined) {
     props.onChange(props.data.question_name, tmp[0]);
   }
 
@@ -47,7 +43,7 @@ function GroupQuestion(props) {
         <div className="input-group mb-3 justify-content-between">
           <div className="d-flex mb-2">
             <div className="input-group-prepend">
-              <label className="input-group-text" for="inputGroupSelect01">
+              <label className="input-group-text">
                 Cначала тут
               </label>
             </div>
@@ -55,10 +51,10 @@ function GroupQuestion(props) {
               id="select"
               defaultValue={choosenGroup}
               onChange={(e) => {
-                var tmp = [];
+                let tmp = [];
                 setChoosenGroup(e.target.value);
                 items_list.map((item) => {
-                  if (item.group == e.target.value) {
+                  if (item.group === e.target.value) {
                     tmp.push(item.answer);
                   }
                 });
@@ -72,7 +68,7 @@ function GroupQuestion(props) {
           </div>
           <div className="d-flex mb-2">
             <div className="input-group-prepend">
-              <label className="input-group-text" for="inputGroupSelect01">
+              <label className="input-group-text">
                 А потом тут
               </label>
             </div>
@@ -101,10 +97,10 @@ function GroupQuestion(props) {
               }}
               className="form-control"
               rows="3"
-            ></textarea>
+            />
           </div>
         ) : (
-          <div></div>
+          <div/>
         )}
       </div>
     </div>

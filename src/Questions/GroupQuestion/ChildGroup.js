@@ -1,19 +1,16 @@
-import React, { useContext, useState } from "react";
-import PropTypes, { func } from "prop-types";
+import React, { useContext } from "react";
 import Context from "../../context";
 import QuestionList from "./ChildGroupItem.js";
 
-const styles = {};
-
 function ChildGroup(props) {
-  const { removeGroup, changeGroupChild, removeGroupChild, addGroupChild } =
+  const { removeGroup, removeGroupChild, addGroupChild } =
     useContext(Context);
   const [title, setTitle] = React.useState(new Map());
   const { changeTitle } = useContext(Context);
 
   function prepareSetTitle(e, currentKey) {
-    if (typeof title == "string") {
-      var tmp = new Map();
+    if (typeof title === "string") {
+      let tmp = new Map();
       tmp.set(currentKey, e.value);
       setTitle(tmp);
     } else {
@@ -25,16 +22,16 @@ function ChildGroup(props) {
   const [questionsList, setQuestionsList] = React.useState([]);
 
   function removeTodo(group_id, child_id) {
-    var tmp = [];
-    var counter = 0;
+    let tmp = [];
+    let counter = 0;
     questionsList.map((value) => {
-      if (value.group_id == group_id) {
+      if (value.group_id === group_id) {
         counter += 1;
       }
     });
     if (counter > 1) {
       questionsList.map((value) => {
-        if (child_id != value.child_id) {
+        if (child_id !== value.child_id) {
           tmp.push(value);
         }
       });
@@ -43,7 +40,7 @@ function ChildGroup(props) {
     }
   }
   function addTodo(group_id) {
-    var child = {
+    let child = {
       ques_index: props.index,
       group_id: group_id,
       group_name: title.get(group_id),
@@ -54,23 +51,12 @@ function ChildGroup(props) {
 
     addGroupChild(child);
   }
-  function changeTodo(e, group_id, child_id) {
-    var tmp = questionsList;
-    tmp.map((value) => {
-      if (child_id == value.child_id) {
-        value.value = e.target.value;
-      }
-    });
-    setQuestionsList(tmp);
-
-    changeGroupChild(tmp);
-  }
 
   return (
-    <Context.Provider value={{ removeTodo, changeTodo }}>
+    <Context.Provider value={{ removeTodo }}>
       <div>
         {props.groups.map((currentValue) => {
-          var title_tmp = title.get(currentValue.key);
+          let title_tmp = title.get(currentValue.key);
           return (
             <div>
               <div className="row">
@@ -86,7 +72,7 @@ function ChildGroup(props) {
                         prepareSetTitle(e.target, currentValue.key);
                       }}
                       defaultValue={title_tmp}
-                    ></input>
+                    />
                   </div>
                 </div>
 

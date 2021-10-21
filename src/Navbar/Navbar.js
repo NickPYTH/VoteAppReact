@@ -1,5 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 function Navbar() {
   const [activeTab, setActiveTab] = React.useState("Main");
   return (
@@ -22,7 +25,7 @@ function Navbar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"/>
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
@@ -34,7 +37,7 @@ function Navbar() {
                 setActiveTab("Main");
               }}
             >
-              {activeTab == "Main" ? (
+              {activeTab === "Main" ? (
                 <div style={{ fontWeight: "500", color: "#212529" }}>
                   Главная
                 </div>
@@ -51,7 +54,7 @@ function Navbar() {
                 setActiveTab("Constructor");
               }}
             >
-              {activeTab == "Constructor" ? (
+              {activeTab === "Constructor" ? (
                 <div style={{ fontWeight: "500", color: "#212529" }}>
                   Конструктор
                 </div>
@@ -68,7 +71,7 @@ function Navbar() {
                 setActiveTab("Edit");
               }}
             >
-              {activeTab == "Edit" ? (
+              {activeTab === "Edit" ? (
                 <div style={{ fontWeight: "500", color: "#212529" }}>
                   Редакция
                 </div>
@@ -85,7 +88,7 @@ function Navbar() {
                 setActiveTab("Stats");
               }}
             >
-              {activeTab == "Stats" ? (
+              {activeTab === "Stats" ? (
                 <div style={{ fontWeight: "500", color: "#212529" }}>
                   Cтатистика
                 </div>

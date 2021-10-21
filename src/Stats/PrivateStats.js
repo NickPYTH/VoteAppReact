@@ -1,8 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import Loader from "../Loader";
 import { Bar, Radar } from "react-chartjs-2";
-import reactDom from "react-dom";
 
 const options = {
   scales: {
@@ -22,9 +20,9 @@ function PrivateStats(props) {
   const [fileLink, setFileLink] = React.useState("");
 
   useEffect(() => {
-    var axios = require("axios");
-    var data = JSON.stringify({ form_key: props.formKey });
-    var config = {
+    let axios = require("axios");
+    let data = JSON.stringify({ form_key: props.formKey });
+    let config = {
       method: "post",
       url: "http://176.57.217.201:8000/api/get_form_private_results",
       headers: {
@@ -37,7 +35,7 @@ function PrivateStats(props) {
 
     axios(config)
       .then(function (response) {
-        var questions = response.data;
+        let questions = response.data;
         setQuestionList(questions);
         setFileLink(questions.file_link);
         setLoader(false);
@@ -60,14 +58,14 @@ function PrivateStats(props) {
         <div className="row">
           <div className="w-100 text-center h3">Статистика</div>
           {questionList.questions.map((ans) => {
-            var arr = ans.answers;
-            var result = {};
-            for (var i = 0; i < arr.length; ++i) {
-              var a = arr[i];
+            let arr = ans.answers;
+            let result = {};
+            for (let i = 0; i < arr.length; ++i) {
+              let a = arr[i];
               if (result[a] != undefined) ++result[a];
               else result[a] = 1;
             }
-            var labels = [];
+            let labels = [];
             return (
               <div className="col-12 col-lg-6">
                 <Bar
